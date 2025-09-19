@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Md Shakil Tanvir — Embedded Systems | Robotics | IoT</title>
+  <meta name="description" content="Personal portfolio of Md Shakil Tanvir — Embedded Systems Engineer focused on robotics, secure hardware wallets, engine control, and smart energy systems." />
+  <meta name="author" content="Md Shakil Tanvir" />
+  <meta property="og:title" content="Md Shakil Tanvir — Portfolio" />
+  <meta property="og:description" content="Embedded Systems • Robotics • IoT • Secure Hardware" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.jpg" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config for container + dark mode
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          container: { center: true, padding: '1rem' },
+          colors: { brand: { 50:'#eff6ff', 500:'#2563eb', 600:'#1d4ed8' } },
+          boxShadow: { soft: '0 10px 30px -10px rgba(0,0,0,0.2)'}
+        }
+      }
+    }
+  </script>
+  <!-- Schema.org for a researcher/engineer profile -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Md Shakil Tanvir",
+    "jobTitle": "Embedded Systems Engineer",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Creative Factory of Robotics and Embedded System"
+    },
+    "url": "https://example.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/shakiltanvir",
+      "https://github.com/your-github",
+      "https://scholar.google.com/citations?user=YOURID"
+    ],
+    "knowsAbout": [
+      "Embedded Systems", "Robotics", "IoT", "Modbus", "DLMS/COSEM",
+      "STM32", "Raspberry Pi", "Secure Hardware Wallets", "ATECC608A",
+      "Engine Control Units", "Computer Vision"
+    ]
+  }
+  </script>
+  <style> html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial} .prose a{word-break:break-word} </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <!-- Sticky top bar -->
+  <header class="sticky top-0 z-50 backdrop-blur bg-white/75 dark:bg-slate-900/70 border-b border-slate-200/60 dark:border-slate-800">
+    <div class="container flex items-center justify-between h-14">
+      <a href="#home" class="font-semibold tracking-tight">Md Shakil Tanvir</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="#research" class="hover:text-brand-600">Research</a>
+        <a href="#publications" class="hover:text-brand-600">Publications</a>
+        <a href="#projects" class="hover:text-brand-600">Projects</a>
+        <a href="#teaching" class="hover:text-brand-600">Teaching</a>
+        <a href="#talks" class="hover:text-brand-600">Talks</a>
+        <a href="#contact" class="hover:text-brand-600">Contact</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800" aria-label="Toggle theme">🌙</button>
+        <a href="#cv" class="px-3 py-1.5 text-sm rounded-xl bg-brand-600 text-white hover:bg-brand-500">CV</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative">
+    <div class="container py-16 md:py-24 grid md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-7">
+        <p class="text-brand-600 font-semibold mb-2">Embedded Systems • Robotics • IoT</p>
+        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Building reliable embedded systems that bridge research and real-world impact.</h1>
+        <p class="mt-5 text-slate-600 dark:text-slate-300 max-w-2xl">I design and ship secure hardware and real‑time firmware: air‑gapped crypto wallets (Pi Zero + ATECC608A), STM32‑based engine ignition, smart energy & AMI, and robotics/vision. Seeking collaboration with professors, researchers, and deep‑tech industry.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#contact" class="px-5 py-2.5 rounded-xl bg-brand-600 text-white hover:bg-brand-500 shadow-soft">Collaborate</a>
+          <a href="#projects" class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800">See Projects</a>
+        </div>
+        <ul class="mt-6 flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400">
+          <li>STM32 / FreeRTOS</li>
+          <li>Raspberry Pi / Linux</li>
+          <li>Modbus, MQTT, DLMS</li>
+          <li>Crypto / Secure Elements</li>
+          <li>Computer Vision</li>
+        </ul>
+      </div>
+      <div class="md:col-span-5">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-2 shadow-soft">
+          <img src="/profile.jpg" alt="Md Shakil Tanvir" class="rounded-xl aspect-square object-cover" />
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">* Replace with your photo (1200×1200 recommended)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Highlights -->
+  <section class="border-y border-slate-200/80 dark:border-slate-800/80">
+    <div class="container py-10 grid md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="font-semibold">Research Interests</h3>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">Secure embedded systems, real‑time control, AMI/Smart Energy, multi‑robot coordination, HW/SW co‑design.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="font-semibold">Open to Collaboration</h3>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">Industry research partnerships, joint publications, lab projects, supervised theses, consulting.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="font-semibold">Current Focus</h3>
+        <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">Air‑gapped hardware wallet; STM32 ECU ignition timing; Smart medicine dispenser; AMI 2.0 pilots.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research summary -->
+  <section id="research" class="container py-16">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold">Research Summary</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-300">My work blends academic rigor with production‑grade prototypes. I explore <strong>secure computation at the edge</strong>, <strong>deterministic control</strong>, and <strong>scalable telemetry</strong> for cyber‑physical systems. I enjoy collaborating on experimental setups, dataset design, and reproducible firmware/tooling.</p>
+      <ul class="list-disc pl-6 mt-4 text-slate-700 dark:text-slate-300">
+        <li>Secure elements (ATECC608A) for key management and ECDSA signing on constrained devices.</li>
+        <li>Real‑time ignition scheduling with encoder feedback and dynamic dwell on STM32.</li>
+        <li>Smart‑metering: Modbus RTU/TCP aggregation gateways; DLMS/COSEM exploration.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section id="publications" class="bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
+    <div class="container py-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Selected Publications & Preprints</h2>
+      <ol class="mt-6 space-y-6">
+        <li class="p-5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <p class="font-semibold">Tool Wear Prediction with Multi‑Modal Signals in Robotic Milling</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Tanvir, M.S., et al. (manuscript in progress). Signals: AE, vibration, SMC; fusion via attention‑based DNN. <a class="underline" href="#">PDF</a> · <a class="underline" href="#">Code</a></p>
+        </li>
+        <li class="p-5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <p class="font-semibold">Secure QR‑Based Wallet Signers for Mobile Wallet Import</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Whitepaper (2025). Offline UR:CRYPTO‑HDKEY encoding; Pi Zero + ATECC608A. <a class="underline" href="#">Preprint</a></p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="container py-16">
+    <h2 class="text-2xl md:text-3xl font-bold">Highlighted Projects</h2>
+    <div class="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Project card template (repeat) -->
+      <article class="group p-5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-soft transition">
+        <img src="/proj-wallet.jpg" alt="Air-Gapped Wallet" class="rounded-xl aspect-video object-cover" />
+        <h3 class="mt-4 font-semibold">Air‑Gapped Hardware Wallet</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">UR:CRYPTO‑HDKEY, QR signing, ATECC608A key storage, 2.8″ TFT UI, Python + C drivers.</p>
+        <a class="text-sm mt-2 inline-flex items-center gap-1 underline" href="#">Case study →</a>
+      </article>
+      <article class="group p-5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-soft transition">
+        <img src="/proj-ecu.jpg" alt="STM32 ECU" class="rounded-xl aspect-video object-cover" />
+        <h3 class="mt-4 font-semibold">STM32 Engine Ignition (ECU)</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">60‑2 encoder, multi‑cyl scheduling, dynamic dwell, MISRA‑style C.</p>
+        <a class="text-sm mt-2 inline-flex items-center gap-1 underline" href="#">Read more →</a>
+      </article>
+      <article class="group p-5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-soft transition">
+        <img src="/proj-ami.jpg" alt="AMI/Smart Metering" class="rounded-xl aspect-video object-cover" />
+        <h3 class="mt-4 font-semibold">AMI / Smart Energy Gateway</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Modbus aggregation, MQTT bridge, DLMS/COSEM exploration, cloud integrations.</p>
+        <a class="text-sm mt-2 inline-flex items-center gap-1 underline" href="#">Design notes →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Teaching & Mentoring -->
+  <section id="teaching" class="bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
+    <div class="container py-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Teaching & Mentoring</h2>
+      <ul class="mt-6 grid md:grid-cols-2 gap-6">
+        <li class="p-5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <p class="font-semibold">Robotics & Embedded Systems (Creative Factory Labs)</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Curriculum: STM32, ESP32, sensors/actuators, IoT protocols, secure firmware.</p>
+        </li>
+        <li class="p-5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <p class="font-semibold">Student Supervision & Final-Year Projects</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Open to supervising embedded/IoT projects; co‑authored outputs welcome.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Talks -->
+  <section id="talks" class="container py-16">
+    <h2 class="text-2xl md:text-3xl font-bold">Talks & Workshops</h2>
+    <div class="mt-6 space-y-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="font-semibold">Secure Elements on the Edge: Practical ATECC608A</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Hands‑on session: key gen, ECDSA signing, wallet flows (2025).</p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="font-semibold">From Lab to Field: Shipping AMI Gateways</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Design lessons for robust Modbus/MQTT systems in Bangladesh (2025).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV & Contact -->
+  <section id="cv" class="bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
+    <div class="container py-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Curriculum Vitae</h2>
+      <p class="mt-3 text-slate-600 dark:text-slate-300">Download a concise academic CV highlighting publications, projects, teaching, and industry collaborations.</p>
+      <a href="/Md_Shakil_Tanvir_CV.pdf" class="inline-block mt-4 px-5 py-2.5 rounded-xl bg-brand-600 text-white hover:bg-brand-500">Download CV (PDF)</a>
+    </div>
+  </section>
+
+  <section id="contact" class="container py-16">
+    <h2 class="text-2xl md:text-3xl font-bold">Contact</h2>
+    <p class="mt-3 text-slate-600 dark:text-slate-300">I'm available for research collaborations, supervision, and industry consulting.</p>
+    <div class="mt-6 grid md:grid-cols-3 gap-6">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">Email</p>
+        <a id="email" class="font-medium underline" href="#">[email protected]</a>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">LinkedIn</p>
+        <a class="font-medium underline" href="https://www.linkedin.com/in/shakiltanvir" target="_blank" rel="noreferrer">linkedin.com/in/shakiltanvir</a>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">GitHub</p>
+        <a class="font-medium underline" href="https://github.com/your-github" target="_blank" rel="noreferrer">github.com/your-github</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-200 dark:border-slate-800">
+    <div class="container py-8 text-sm text-slate-500 dark:text-slate-400 flex flex-col md:flex-row gap-3 md:gap-6 items-center justify-between">
+      <p>© <span id="year"></span> Md Shakil Tanvir • Dhaka, Bangladesh</p>
+      <div class="flex items-center gap-4">
+        <a class="underline" href="#">Privacy</a>
+        <a class="underline" href="#">Imprint</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle + persist
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) root.classList.toggle('dark', savedTheme === 'dark');
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = root.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Simple email obfuscation
+    const e = ['tanvir','creativefactory','tech'].join('.') + '@gmail.com';
+    const emailEl = document.getElementById('email');
+    emailEl.textContent = e; emailEl.href = `mailto:${e}`;
+  </script>
+</body>
+</html>

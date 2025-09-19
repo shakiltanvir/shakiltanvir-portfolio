@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "ecu",
+    "title": "STM32 Engine Ignition (ECU)",
+    "summary": "60-2 encoder, multi-cylinder scheduling, dynamic dwell.",
+    "images": [
+      "assets/proj-ecu1.jpg",
+      "assets/proj-ecu2.jpg",
+      "assets/proj-ecu3.jpg"
+    ],
+    "tags": ["STM32", "Automotive"],
+    "detail": "/projects/ecu.html"
+  },
+  {
+    "slug": "wallet",
+    "title": "Air-Gapped Hardware Wallet",
+    "summary": "UR:CRYPTO-HDKEY, ATECC608A secure key storage, QR signing.",
+    "images": [
+      "assets/proj-wallet1.jpg",
+      "assets/proj-wallet2.jpg"
+    ],
+    "tags": ["Security", "Raspberry Pi", "ATECC608A"],
+    "detail": "/projects/wallet.html"
+  },
+    {
+        "slug": "smart-energy",
+        "title": "DLMS/COSEM Smart Meter",
+        "summary": "STM32, Modbus RTU/TCP, DLMS/COSEM, STS/CTS.",
+        "images": [
+        "assets/proj-dlms1.jpg",
+        "assets/proj-dlms2.jpg"
+        ],
+        "tags": ["STM32", "Smart Energy", "DLMS/COSEM"],
+        "detail": "/projects/smart-energy.html"
+    },
+    {
+        "slug": "defense-rov",
+        "title": "Military EOD ROV",
+        "summary": "Robotics platform with RTK GPS, LIDAR, robotic arm.",
+        "images": [
+        "assets/proj-rov1.jpg",
+        "assets/proj-rov2.jpg"
+        ],
+        "tags": ["Robotics", "RTK GPS", "LIDAR"],
+        "detail": "/projects/defense-rov.html"
+    },
+    {
+        "slug": "agritech-automation",
+        "title": "Agritech Automation",
+        "summary": "IoT-based greenhouse and irrigation automation.",
+        "images": [
+        "assets/proj-agritech1.jpg",
+        "assets/proj-agritech2.jpg"
+        ],
+        "tags": ["IoT", "Automation", "Agriculture"],
+        "detail": "/projects/agritech-automation.html"
+    }
+]

@@ -1,0 +1,9 @@
+{
+  "skills": [
+    "Embedded C/C++, Python",
+    "STM32, ESP32, RISC-V",
+    "UART, SPI, I2C, CAN, Ethernet",
+    "Modbus, MQTT, DLMS/COSEM, STS",
+    "FreeRTOS, Embedded Linux"
+  ]
+}

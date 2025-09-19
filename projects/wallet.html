@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Coin Hardware Wallet Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            padding: 36px 32px;
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 12px;
+            font-size: 2.2em;
+        }
+        .subtitle {
+            color: #2d3e50;
+            font-size: 1.15em;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #1a73e8;
+            margin-top: 32px;
+            margin-bottom: 10px;
+            font-size: 1.15em;
+        }
+        ul {
+            margin: 12px 0 0 24px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .details, .tech {
+            background: #f0f4f8;
+            border-radius: 7px;
+            padding: 18px;
+            margin-top: 18px;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .tech-item {
+            background: #e3eaf3;
+            border-radius: 5px;
+            padding: 8px 16px;
+            font-size: 0.98em;
+            color: #2d3e50;
+        }
+        .images {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-top: 28px;
+            margin-bottom: 10px;
+        }
+        .images img {
+            max-width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: #eee;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.95em;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Coin Hardware Wallet</h1>
+        <div class="subtitle">
+            A secure, air-gapped hardware wallet for blockchain assets, designed and developed from scratch.
+        </div>
+
+        <div class="images">
+            <img src="assets/proj-wallet1.jpg" alt="Hardware Wallet Front View">
+            <img src="assets/proj-wallet2.jpg" alt="Hardware Wallet Components">
+        </div>
+
+        <div class="section-title">What is it?</div>
+        <div class="details">
+            This project is a custom-built hardware wallet supporting multiple cryptocurrencies. It is designed for maximum security, using air-gapped QR-based signing and hardware cryptography to protect private keys and transactions.
+        </div>
+
+        <div class="section-title">What I Did</div>
+        <ul>
+            <li>Designed and developed the wallet using Raspberry Pi Zero as the main controller</li>
+            <li>Integrated a camera for QR code scanning and transaction signing</li>
+            <li>Implemented secure signing with the ATECC608A cryptographic chip</li>
+            <li>Built a Python desktop UI for user interaction</li>
+            <li>Focused on hardware cryptography, anti-tamper techniques, and secure key storage</li>
+        </ul>
+
+        <div class="section-title">Key Technologies Used</div>
+        <div class="tech">
+            <div class="tech-list">
+                <div class="tech-item">Raspberry Pi Zero</div>
+                <div class="tech-item">Camera Module</div>
+                <div class="tech-item">ATECC608A Crypto Co-Processor</div>
+                <div class="tech-item">Python (Desktop UI)</div>
+                <div class="tech-item">QR Code Signing</div>
+                <div class="tech-item">Hardware Security</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Designed &amp; developed by [Your Name]
+        </div>
+    </div>
+</body>
+</html>

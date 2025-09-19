@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Tool Wear Detection in Robotic Milling",
+    "slug": "tool-wear",
+    "summary": "Deep learning model to predict tool wear using spindle motor current.",
+    "images": ["assets/research-toolwear1.jpg"],
+    "detail": "research/tool-wear.html"
+  }
+  ,
+  {
+    "slug": "wallet-security",
+    "title": "Wallet Security with ATECC608A",
+    "summary": "Secure element-backed key management and ECDSA signing on constrained devices.",
+    "images": [
+      "assets/research-wallet1.jpg"
+    ],
+    "detail": "/research/wallet-security.html"
+  }
+  ,
+    {
+        "slug": "dlms-cosem",
+        "title": "DLMS/COSEM Smart Metering",
+        "summary": "Implementing DLMS/COSEM protocol on STM32 for smart energy applications.",
+        "images": [
+        "assets/research-dlms1.jpg"
+        ],
+        "detail": "/research/dlms-cosem.html"
+    }
+    ,
+    {
+        "slug": "robotics-automation",
+        "title": "Robotics and Automation",
+        "summary": "Designing embedded systems for robotics and industrial automation.",
+        "images": [
+        "assets/research-robotics1.jpg"
+        ],
+        "detail": "/research/robotics-automation.html"
+    }
+    ,
+    {
+        "slug": "iot-systems",
+        "title": "IoT Systems Development",
+        "summary": "Building IoT solutions with MQTT, Modbus, and cloud integration.",
+        "images": [
+        "assets/research-iot1.jpg"
+        ],
+        "detail": "/research/iot-systems.html"
+    },
+    {
+        "slug": "embedded-linux",
+        "title": "Embedded Linux Systems",
+        "summary": "Developing applications and drivers for embedded Linux platforms.",
+        "images": [
+        "assets/research-embeddedlinux1.jpg"
+        ],
+        "detail": "/research/embedded-linux.html"
+    }
+]

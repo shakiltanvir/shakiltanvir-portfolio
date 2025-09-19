@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academic — Md Shakil Tanvir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .glass{backdrop-filter:saturate(180%) blur(10px)}
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 glass">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a id="siteName" href="../" class="font-semibold">Md Shakil Tanvir</a>
+      <nav id="nav" class="hidden md:flex gap-6 text-sm">
+        <a href="../#about">About</a><a href="../#academic">Academic</a><a href="../#experience">Experience</a>
+        <a href="../#projects">Projects</a><a href="../#research">Research</a><a href="../#achievements">Achievements</a>
+        <a href="../#publications">Publications</a><a href="../#contact">Contact</a>
+      </nav>
+      <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Academic</h1>
+    <p class="mt-2 text-slate-600 dark:text-slate-300">Degrees and education details.</p>
+
+    <div id="list" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <script>
+    const ok=r=>{if(!r.ok)throw new Error(r.status);return r}; const j=p=>fetch(p,{cache:'no-store'}).then(ok).then(r=>r.json());
+    function esc(v){ if(v==null)return''; if(Array.isArray(v)) v=v.join(', '); v=String(v); return v.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    const fixSrc = s => { if(!s) return s; const str=String(s).trim(); if(/^https?:\/\//.test(str) || str.startsWith('./')||str.startsWith('../')||str.startsWith('/')) return str; if(str.includes('/')) return str; return 'assets/'+str; };
+    (function theme(){ const root=document.documentElement; const saved=localStorage.getItem('theme'); if(saved) root.classList.toggle('dark', saved==='dark'); document.getElementById('themeToggle').onclick=()=>{ const d=root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); }; })();
+
+    // site chrome
+    j('../data/site.json').then(site=>{ const s=document.getElementById('siteName'); if(s&&site.name) s.textContent=site.name; }).catch(()=>{});
+
+    j('../data/academic.json').then(items=>{
+      const list=document.getElementById('list');
+      list.innerHTML = items.map((x,i)=> {
+        const img = x.image || `assets/academic-${i+1}.jpg`;
+        return `
+        <article class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden">
+          <div class="h-40 bg-slate-100 dark:bg-slate-900">
+            <img src="${fixSrc(img)}" alt="" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;800&quot; height=&quot;320&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;#e2e8f0&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;middle&quot; text-anchor=&quot;middle&quot; fill=&quot;#64748b&quot; font-family=&quot;Inter,Arial&quot;>image not found</text></svg>')}'">
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold">${esc(x.degree)}${x.field?` — ${esc(x.field)}`:''}</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">${esc(x.school)}${x.year?` • ${esc(x.year)}`:''}</p>
+            ${x.notes?`<p class="text-sm mt-2">${esc(x.notes)}</p>`:''}
+          </div>
+        </article>`;
+      }).join('');
+    }).catch(()=>{ document.getElementById('list').innerHTML='<p class="text-sm text-slate-500">Add items in <code>data/academic.json</code>.</p>'; });
+  </script>
+</body>
+</html>

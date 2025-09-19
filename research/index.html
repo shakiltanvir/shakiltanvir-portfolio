@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Research — Md Shakil Tanvir</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}</style></head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+<header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/70 backdrop-blur">
+  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+    <a id="siteName" href="/" class="font-semibold">Md Shakil Tanvir</a>
+    <nav id="nav" class="hidden md:flex gap-6 text-sm"></nav>
+    <div class="flex gap-2"><button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border">🌓</button><button id="menuBtn" class="md:hidden px-3 py-1.5 text-sm rounded-xl border">☰</button></div>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden border-t bg-white dark:bg-slate-950"><div class="container px-4 py-3 grid grid-cols-2 gap-3 text-sm"></div></div>
+</header>
+<main class="container mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold">Research</h1>
+  <p class="text-slate-600 dark:text-slate-400 mt-2">Loaded from <code>data/research.json</code>.</p>
+  <div id="grid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</main>
+<footer class="border-t border-slate-200 dark:border-slate-800"><div class="container mx-auto px-4 py-8 text-sm text-slate-500">© <span id="year"></span> Md Shakil Tanvir</div></footer>
+<script src="../assets/site.js"></script>
+<script>
+  Portfolio.initUI(); Portfolio.hydrateChrome();
+  Portfolio.j('../data/research.json').then(items=>{
+    const grid = document.getElementById('grid');
+    grid.innerHTML = items.map(t => `
+      <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition">
+        <div class="mb-3" id="car-${t.slug}"></div>
+        <h2 class="font-semibold">${Portfolio.esc(t.title)}</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${Portfolio.esc(t.summary||'')}</p>
+        <a href="${Portfolio.esc(t.detail)}" class="text-sm underline mt-2 inline-block">Open →</a>
+      </article>
+    `).join('');
+    items.forEach(t=>{
+      const r=document.getElementById('car-'+t.slug);
+      const imgs=(t.images||[]).slice(0,3);
+      if(r && imgs.length) new Portfolio.Carousel(r, imgs);
+    });
+  });
+</script>
+</body></html>

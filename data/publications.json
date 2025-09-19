@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Optimizing Master-Slave Broadcast Communication in Multi-Node Networks Using RS485 Standard",
+    "authors": "Shakil Tanvir et al.",
+    "year": 2024,
+    "extra": "ICCIT 2024 Conference",
+    "pdf": "#"
+  },
+  {
+    "title": "ESP32-based IoT Architecture for Multi-Data Center Monitoring with MQTT & Node-RED Analytics",
+    "authors": "Shakil Tanvir et al.",
+    "year": 2023,
+    "extra": "BIM 2023",
+    "pdf": "#"
+  },
+  {
+    "title": "Extremely Ultra Flattened Negative Dispersion SPAH-PCF for the Employing of RDC",
+    "authors": "Shakil Tanvir et al.",
+    "year": 2021,
+    "extra": "ICSCT 2021 (DOI:10.1109/ICSCT53883.2021.9642573)",
+    "pdf": "#"
+  }
+]

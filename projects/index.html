@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects — Md Shakil Tanvir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}.glass{backdrop-filter:saturate(180%) blur(10px)}</style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 glass">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a id="siteName" href="../" class="font-semibold">Md Shakil Tanvir</a>
+      <nav class="hidden md:flex gap-6 text-sm"><a href="../#projects">Back to Home</a></nav>
+      <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Projects</h1>
+    <div id="grid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <script>
+    const ok=r=>{if(!r.ok)throw new Error(r.status);return r}; const j=p=>fetch(p,{cache:'no-store'}).then(ok).then(r=>r.json());
+    function esc(v){ if(v==null)return''; if(Array.isArray(v)) v=v.join(', '); v=String(v); return v.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    const fixSrc = s => { if(!s) return s; const str=String(s).trim(); if(/^https?:\/\//.test(str) || str.startsWith('./')||str.startsWith('../')||str.startsWith('/')) return str; if(str.includes('/')) return str; return 'assets/'+str; };
+    (function theme(){ const root=document.documentElement; const saved=localStorage.getItem('theme'); if(saved) root.classList.toggle('dark', saved==='dark'); document.getElementById('themeToggle').onclick=()=>{ const d=root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); }; })();
+
+    // mini carousel (same height for all cards)
+    class Carousel {
+      constructor(root, images=[]){ this.i=0; this.images=images; this.track=document.createElement('div'); this.track.className='flex h-full transition-transform duration-300 ease-out';
+        root.className='relative overflow-hidden h-48 md:h-56 lg:h-64 rounded-xl bg-slate-100 dark:bg-slate-900'; root.innerHTML='';
+        images.forEach(src=>{ const s=document.createElement('div'); s.className='min-w-full h-full'; s.innerHTML=`<img src="${fixSrc(src)}" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;800&quot; height=&quot;360&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;#e2e8f0&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;middle&quot; text-anchor=&quot;middle&quot; fill=&quot;#64748b&quot; font-family=&quot;Inter,Arial&quot;>image not found</text></svg>')}'">`; this.track.appendChild(s); }); root.appendChild(this.track);
+        if(images.length>1){ const mk=dir=>{const b=document.createElement('button'); b.className='absolute top-1/2 -translate-y-1/2 '+(dir==='prev'?'left-2':'right-2')+' bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-full p-2'; b.innerHTML=dir==='prev'?'&#10094;':'&#10095;'; b.onclick=()=>this.go(dir==='prev'?this.i-1:this.i+1); return b;}; root.appendChild(mk('prev')); root.appendChild(mk('next')); }
+        this.go(0);
+      }
+      go(i){ this.i=(i+this.images.length)%this.images.length; this.track.style.transform=`translateX(${-this.i*100}%)`; }
+    }
+
+    j('../data/site.json').then(site=>{ const s=document.getElementById('siteName'); if(s&&site.name) s.textContent=site.name; }).catch(()=>{});
+
+    j('../data/projects.json').then(items=>{
+      const grid=document.getElementById('grid');
+      grid.innerHTML = items.map(p=>`
+        <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition">
+          <div class="mb-3" id="car-${esc(p.slug)}"></div>
+          <h3 class="font-semibold">${esc(p.title)}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${esc(p.summary||'')}</p>
+          ${Array.isArray(p.tags)?`<div class="mt-2 flex flex-wrap gap-2">${p.tags.map(t=>`<span class="px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700">${esc(t)}</span>`).join('')}</div>`:''}
+          ${p.detail?`<a href="${esc(p.detail)}" class="text-sm underline mt-2 inline-block">Open →</a>`:''}
+        </article>
+      `).join('');
+      items.forEach(p=>{ const root=document.getElementById('car-'+p.slug); const imgs=(p.images||[]); if(root && imgs.length) new Carousel(root, imgs); });
+    }).catch(()=>{ document.getElementById('grid').innerHTML='<p class="text-sm text-slate-500">Add items in <code>data/projects.json</code>.</p>'; });
+  </script>
+</body>
+</html>

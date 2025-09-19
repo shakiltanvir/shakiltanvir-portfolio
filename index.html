@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Md Shakil Tanvir — Embedded Systems • Robotics • IoT</title>
+  <meta name="description" content="Portfolio of Md Shakil Tanvir — Embedded Systems & Robotics Engineer." />
+
+  <!-- Tailwind (CDN for dev). Build locally for production. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .glass{backdrop-filter:saturate(180%) blur(10px)}
+
+    /* Animations & visual sugar */
+    @media (prefers-reduced-motion:no-preference){
+      .fade-up{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+      .fade-up.reveal{opacity:1; transform:none}
+      .stagger>*{opacity:0; transform:translateY(10px)}
+      .stagger.reveal>*{opacity:1; transform:none; transition:opacity .5s ease, transform .5s ease}
+      .stagger.reveal>*:nth-child(1){transition-delay:.05s}
+      .stagger.reveal>*:nth-child(2){transition-delay:.1s}
+      .stagger.reveal>*:nth-child(3){transition-delay:.15s}
+
+      .float-bg::before,.float-bg::after{
+        content:""; position:absolute; width:14rem; height:14rem; border-radius:9999px;
+        filter:blur(40px); opacity:.25; z-index:-1;
+        background:radial-gradient(circle at 30% 30%, #60a5fa, transparent 60%);
+        animation:drift 14s ease-in-out infinite alternate;
+      }
+      .float-bg::after{
+        width:16rem; height:16rem; left:auto; right:10%; top:30%;
+        background:radial-gradient(circle at 70% 50%, #34d399, transparent 60%);
+        animation-duration:18s;
+      }
+      @keyframes drift{from{transform:translate(0,0)}to{transform:translate(20px,-20px)}}
+
+      .hdr-grad{
+        background:linear-gradient(90deg, rgba(99,102,241,.08), rgba(59,130,246,.08), rgba(16,185,129,.08));
+        background-size:200% 100%; animation:gradMove 16s linear infinite;
+      }
+      @keyframes gradMove{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+
+      .marquee{overflow:hidden; position:relative}
+      .marquee-track{display:flex; gap:.75rem; white-space:nowrap; will-change:transform; animation:marq 22s linear infinite}
+      @keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+      /* Ken Burns for profile slideshow */
+      @keyframes kenburns {
+        from { transform: scale(1) translateY(0); }
+        to   { transform: scale(1.06) translateY(-6px); }
+      }
+      .kenburns { animation: kenburns 8s ease-in-out infinite alternate; will-change: transform; }
+    }
+    @media (prefers-reduced-motion:reduce){ .marquee-track{animation:none} }
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <!-- header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 glass hdr-grad">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a id="siteName" href="./" class="font-semibold">Md Shakil Tanvir</a>
+      <nav id="nav" class="hidden md:flex gap-6 text-sm">
+        <a href="#about">About</a>
+        <a href="#academic">Academic</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#research">Research</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="flex gap-2">
+        <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+        <button id="menuBtn" class="md:hidden px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+      <div class="container px-4 py-3 grid grid-cols-2 gap-3 text-sm">
+        <a class="py-2" href="#about">About</a><a class="py-2" href="#academic">Academic</a>
+        <a class="py-2" href="#experience">Experience</a><a class="py-2" href="#projects">Projects</a>
+        <a class="py-2" href="#research">Research</a><a class="py-2" href="#achievements">Achievements</a>
+        <a class="py-2" href="#publications">Publications</a><a class="py-2" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="relative container mx-auto px-4 py-12 md:py-16 float-bg">
+    <div class="grid md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-7 fade-up reveal">
+        <p class="text-blue-600 dark:text-blue-400 font-semibold">Embedded Systems • Robotics • IoT</p>
+        <h1 id="heroTitle" class="mt-2 text-3xl md:text-5xl font-extrabold leading-tight">
+          Building reliable embedded systems that bridge research and real-world impact.
+        </h1>
+        <p id="heroSubtitle" class="mt-4 text-slate-600 dark:text-slate-300 max-w-2xl">
+          Secure hardware wallets, STM32 ECUs, smart energy (DLMS/COSEM, STS), and ROVs.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#projects" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-500">See Projects</a>
+          <a href="#research" class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900">Research</a>
+        </div>
+        <div class="mt-6 grid grid-cols-3 gap-3 text-center text-sm">
+          <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800"><p id="statExp" class="font-semibold">—</p><p class="text-slate-500">Experience</p></div>
+          <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800"><p id="statProj" class="font-semibold">—</p><p class="text-slate-500">Projects</p></div>
+          <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800"><p id="statPub" class="font-semibold">—</p><p class="text-slate-500">Publications</p></div>
+        </div>
+      </div>
+
+      <!-- Profile slideshow (fixed height, cross-fade + Ken Burns) -->
+      <div class="md:col-span-5 fade-up reveal" style="transition-delay:.15s">
+        <div id="profileRotator"
+             class="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800
+                    bg-slate-100 dark:bg-slate-900 h-80 md:h-[26rem]">
+          <!-- fallback image (kept if no candidates found) -->
+          <img src="assets/profile.jpg" alt="" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section id="about" class="container mx-auto px-4 py-12 border-t border-slate-200 dark:border-slate-800">
+    <h2 class="text-2xl md:text-3xl font-bold fade-up">About</h2>
+    <div class="mt-5 grid md:grid-cols-3 gap-6 fade-up">
+      <p id="aboutText" class="md:col-span-2 text-slate-700 dark:text-slate-300">
+        Embedded Systems & Robotics Engineer from Dhaka focusing on secure hardware, real-time control, and smart energy systems.
+      </p>
+      <ul id="aboutSkills" class="text-sm space-y-2"></ul>
+    </div>
+  </section>
+
+  <!-- academic -->
+  <section id="academic" class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Academic</h2>
+      <a href="academic/index.html" class="text-sm underline fade-up">See all →</a>
+    </div>
+    <div id="academicList" class="mt-6 grid md:grid-cols-2 gap-6"></div>
+  </section>
+
+  <!-- experience -->
+  <section id="experience" class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Experience</h2>
+    </div>
+    <div id="experienceList" class="mt-6 space-y-5"></div>
+  </section>
+
+  <!-- projects -->
+  <section id="projects" class="container mx-auto px-4 py-12 border-t border-slate-200 dark:border-slate-800">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Projects</h2>
+      <a href="projects/index.html" class="text-sm underline fade-up">See all →</a>
+    </div>
+    <div id="featProjects" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- research -->
+  <section id="research" class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Research</h2>
+      <a href="research/index.html" class="text-sm underline fade-up">See all →</a>
+    </div>
+    <div id="featResearch" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- achievements (marquee preview) -->
+  <section id="achievements" class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Achievements</h2>
+      <a href="achievements/index.html" class="text-sm underline fade-up">See all →</a>
+    </div>
+    <div class="mt-6 marquee">
+      <div id="homeAchievements" class="marquee-track"></div>
+    </div>
+  </section>
+
+  <!-- publications -->
+  <section id="publications" class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl md:text-3xl font-bold fade-up">Publications</h2>
+      <a href="publications/index.html" class="text-sm underline fade-up">See all →</a>
+    </div>
+    <div id="homePubs" class="mt-6 space-y-3"></div>
+  </section>
+
+  <!-- contact -->
+  <section id="contact" class="container mx-auto px-4 py-12 border-t border-slate-200 dark:border-slate-800">
+    <h2 class="text-2xl md:text-3xl font-bold fade-up">Contact</h2>
+    <div class="mt-6 grid md:grid-cols-3 gap-6 fade-up">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">Email</p>
+        <a id="email" class="font-medium underline" href="#"></a>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">LinkedIn</p>
+        <a id="linkedinLink" class="font-medium underline" href="https://www.linkedin.com/in/shakiltanvir" target="_blank" rel="noreferrer">linkedin.com/in/shakiltanvir</a>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+        <p class="text-sm">Website</p>
+        <a id="siteLink" class="font-medium underline" href="https://sites.google.com/view/shakiltanvir" target="_blank" rel="noreferrer">sites.google.com/view/shakiltanvir</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-200 dark:border-slate-800">
+    <div class="container mx-auto px-4 py-8 text-sm text-slate-500">© <span id="year"></span> Md Shakil Tanvir</div>
+  </footer>
+
+  <!-- ====== embedded logic ====== -->
+  <script>
+    // ---------- utilities ----------
+    const $ = s => document.querySelector(s);
+    const ok = r => { if(!r.ok) throw new Error(r.status); return r; };
+    const j = p => fetch(p, {cache:'no-store'}).then(ok).then(r=>r.json());
+
+    // Safe esc: strings/arrays/numbers/null
+    function esc(v){
+      if (v == null) return '';
+      if (Array.isArray(v)) v = v.join(', ');
+      v = String(v);
+      return v.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    // Ensure image src has assets/ if you passed only a filename
+    const fixSrc = (s) => {
+      if (!s) return s;
+      const str = String(s).trim();
+      if (str.startsWith('http://') || str.startsWith('https://') || str.startsWith('./') || str.startsWith('../') || str.startsWith('/')) return str;
+      if (str.includes('/')) return str;
+      return 'assets/' + str;
+    };
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---------- theme & menu ----------
+    (function initUI(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      if (saved) root.classList.toggle('dark', saved === 'dark');
+      const t = $('#themeToggle'); if (t) t.onclick = () => { const d = root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); };
+      const btn = $('#menuBtn'), menu = $('#mobileMenu');
+      if (btn && menu){ btn.onclick=()=>menu.classList.toggle('hidden'); menu.querySelectorAll('a').forEach(a=>a.onclick=()=>menu.classList.add('hidden')); }
+      const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
+    })();
+
+    // ---------- scroll reveal (supports dynamic nodes) ----------
+    const reveal = (function(){
+      if (reduced) {
+        return { observeNew: (nodes)=>{ (nodes instanceof NodeList ? nodes : [nodes]).forEach(n=> n.classList?.add('reveal')); } };
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if (e.isIntersecting){ e.target.classList.add('reveal'); io.unobserve(e.target); }
+        });
+      }, {threshold:.15});
+      const observeNew = (nodes)=>{
+        if (!nodes) return;
+        const list = (nodes instanceof NodeList) ? nodes : [nodes];
+        list.forEach(n=> io.observe(n));
+      };
+      // observe initial statics
+      observeNew(document.querySelectorAll('.fade-up, .stagger'));
+      return { observeNew };
+    })();
+
+    // ---------- hydrate from site.json ----------
+    (async function hydrateChrome(){
+      try {
+        const site = await j('data/site.json');
+        const setTxt = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+        const setHrefText = (id, url) => { const el = document.getElementById(id); if (el && url){ el.href = url; el.textContent = url.replace(/^https?:\/\//,''); } };
+
+        setTxt('siteName', site.name);
+        setTxt('heroTitle', site.headline);
+        setTxt('heroSubtitle', site.subtitle);
+        if (site.about) setTxt('aboutText', site.about);
+        if (site.links?.linkedin) setHrefText('linkedinLink', site.links.linkedin);
+        if (site.links?.website)  setHrefText('siteLink', site.links.website);
+        if (site.contact?.email){ const a = document.getElementById('email'); if (a){ a.href = `mailto:${site.contact.email}`; a.textContent = site.contact.email; } }
+
+        // pass site.photo to rotator if provided
+        if (site.photo) window._extraProfileCandidate = site.photo;
+
+        if (Array.isArray(site.nav)){
+          const nav = document.getElementById('nav');
+          const mob = document.getElementById('mobileMenu')?.querySelector('.container');
+          const toHref = h => (h?.startsWith('/') || h?.startsWith('#')) ? h : `/${h}`;
+          const html = site.nav.map(n => `<a href="${toHref(n.href)}">${esc(n.label)}</a>`).join('');
+          if (nav) nav.innerHTML = html;
+          if (mob) mob.innerHTML = site.nav.map(n=>`<a class="py-2" href="${toHref(n.href)}">${esc(n.label)}</a>`).join('');
+        }
+      } catch(e) { /* fallback */ }
+    })();
+
+    // ---------- stats + about skills ----------
+    j('data/stats.json').then(s=>{
+      if (s.experience_years) $('#statExp').textContent = s.experience_years + ' yrs';
+      if (s.projects) $('#statProj').textContent = s.projects + '+';
+      if (s.publications) $('#statPub').textContent = s.publications;
+    }).catch(()=>{});
+    j('data/skills.json').then(sk=>{
+      const ul = document.getElementById('aboutSkills');
+      if (ul) ul.innerHTML = (sk.skills||[]).map(t=>`<li class="fade-up">• ${esc(t)}</li>`).join('');
+      reveal.observeNew(ul.querySelectorAll('.fade-up'));
+    }).catch(()=>{});
+
+    // ---------- Carousel (fixed height, autoplay, touch/drag) ----------
+    class Carousel {
+      constructor(root, images = [], {autoplay=true, interval=3500} = {}) {
+        this.root = root; this.images = images; this.i = 0;
+        this.track = document.createElement('div');
+        this.track.className = 'flex h-full transition-transform duration-300 ease-out';
+        root.classList.add('relative','overflow-hidden','h-48','md:h-56','lg:h-64','rounded-xl','bg-slate-100','dark:bg-slate-900');
+        root.innerHTML='';
+        images.forEach(src=>{
+          const slide = document.createElement('div');
+          slide.className = 'min-w-full h-full';
+          const img = document.createElement('img');
+          img.src = fixSrc(src);
+          img.loading = 'lazy';
+          img.alt = '';
+          img.className = 'w-full h-full object-cover';
+          img.onerror = () => {
+            img.onerror = null;
+            img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+              <svg xmlns="http://www.w3.org/2000/svg" width="800" height="450">
+                <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#e2e8f0" offset="0"/><stop stop-color="#cbd5e1" offset="1"/>
+                </linearGradient></defs>
+                <rect fill="url(#g)" width="100%" height="100%"/>
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter,Arial" font-size="20" fill="#64748b">
+                  image not found
+                </text>
+              </svg>`);
+          };
+          slide.appendChild(img);
+          this.track.appendChild(slide);
+        });
+        root.appendChild(this.track);
+        if (images.length>1){
+          const mkBtn = dir => {
+            const b = document.createElement('button');
+            b.className = 'absolute top-1/2 -translate-y-1/2 ' + (dir==='prev'?'left-2':'right-2') +
+              ' bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-full p-2 hover:shadow';
+            b.innerHTML = dir==='prev'?'&#10094;':'&#10095;';
+            b.onclick = () => this.go(dir==='prev' ? this.i-1 : this.i+1);
+            return b;
+          };
+          root.appendChild(mkBtn('prev')); root.appendChild(mkBtn('next'));
+          this.dots = document.createElement('div');
+          this.dots.className = 'absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2';
+          images.forEach((_,idx)=>{ const d=document.createElement('button'); d.className='w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700'; d.onclick=()=>this.go(idx); this.dots.appendChild(d); });
+          root.appendChild(this.dots);
+        }
+        let sx=0, dx=0;
+        root.addEventListener('pointerdown', e=>{ sx=e.clientX; root.setPointerCapture(e.pointerId); this.pause(); });
+        root.addEventListener('pointermove', e=>{ if(!sx) return; dx=e.clientX-sx; this.track.style.transform=`translateX(calc(${-this.i*100}% + ${dx}px))`; });
+        const end=()=>{ if(!sx) return; if(dx<-60) this.go(this.i+1); else if(dx>60) this.go(this.i-1); else this.go(this.i); sx=0; dx=0; this.resume(); };
+        root.addEventListener('pointerup', end); root.addEventListener('pointercancel', end);
+        root.addEventListener('mouseenter', ()=>this.pause()); root.addEventListener('mouseleave', ()=>this.resume());
+        this._interval = interval;
+        if (autoplay && !reduced && images.length>1) this.resume();
+        this.go(0);
+      }
+      go(idx){ this.i=(idx+this.images.length)%this.images.length; this.track.style.transform=`translateX(${-this.i*100}%)`; if(this.dots) [...this.dots.children].forEach((d,k)=>d.style.opacity=String(k===this.i?1:0.4)); }
+      resume(){ this.stop(); this._timer=setInterval(()=>this.go(this.i+1), this._interval); }
+      pause(){ this.stop(); }
+      stop(){ if(this._timer){ clearInterval(this._timer); this._timer=null; } }
+    }
+
+    // ---------- Academic ----------
+    j('data/academic.json').then(items=>{
+      const el = document.getElementById('academicList');
+      el.innerHTML = items.map(x=>`
+        <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 fade-up">
+          <p class="font-semibold">${esc(x.degree)}${x.field?` — ${esc(x.field)}`:''}</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">${esc(x.school)}${x.year?` • ${esc(x.year)}`:''}</p>
+          ${x.notes?`<p class="text-sm mt-1">${esc(x.notes)}</p>`:''}
+        </div>
+      `).join('');
+      reveal.observeNew(el.querySelectorAll('.fade-up'));
+    }).catch(err=>{ console.error("Academic load error:",err); document.getElementById('academicList').innerHTML = '<p class="text-sm text-slate-500">Add items in <code>data/academic.json</code>.</p>'; });
+
+    // ---------- Experience ----------
+    j('data/experience.json').then(items=>{
+      const el = document.getElementById('experienceList');
+      el.innerHTML = items.map(x=>`
+        <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 fade-up">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <p class="font-semibold">${esc(x.role)} — ${esc(x.org)}</p>
+            <p class="text-xs text-slate-500">${esc(x.start)} – ${esc(x.end||'Present')}</p>
+          </div>
+          ${x.summary?`<p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${esc(x.summary)}</p>`:''}
+          ${Array.isArray(x.bullets)?`<ul class="list-disc pl-5 mt-2 space-y-1 text-sm">${x.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>`:''}
+        </div>
+      `).join('');
+      reveal.observeNew(el.querySelectorAll('.fade-up'));
+    }).catch(err=>{ console.error("Experience load error:",err); document.getElementById('experienceList').innerHTML = '<p class="text-sm text-slate-500">Add roles in <code>data/experience.json</code>.</p>'; });
+
+    // ---------- Projects ----------
+    j('data/projects.json').then(items=>{
+      const pick = items.slice(0,3);
+      const grid = document.getElementById('featProjects');
+      grid.innerHTML = pick.map(p=>`
+        <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition fade-up">
+          <div class="mb-3" id="pcar-${p.slug}"></div>
+          <h3 class="font-semibold">${esc(p.title)}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${esc(p.summary||'')}</p>
+          <a href="${esc(p.detail||'#')}" class="text-sm underline mt-2 inline-block">Open →</a>
+        </article>
+      `).join('');
+      reveal.observeNew(grid.querySelectorAll('.fade-up'));
+      pick.forEach(p=>{
+        const root = document.getElementById('pcar-'+p.slug);
+        const imgs = (p.images||[]).slice(0,5);
+        if (root && imgs.length) new Carousel(root, imgs, {autoplay:true, interval:3500});
+      });
+    }).catch(err=>{ console.error("Projects load error:",err); document.getElementById('featProjects').innerHTML = '<p class="text-sm text-slate-500">Add items to <code>data/projects.json</code>.</p>'; });
+
+    // ---------- Research ----------
+    j('data/research.json').then(items=>{
+      const pick = items.slice(0,3);
+      const grid = document.getElementById('featResearch');
+      grid.innerHTML = pick.map(t=>`
+        <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition fade-up">
+          <div class="mb-3" id="rcar-${t.slug}"></div>
+          <h3 class="font-semibold">${esc(t.title)}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${esc(t.summary||'')}</p>
+          <a href="${esc(t.detail||'#')}" class="text-sm underline mt-2 inline-block">Open →</a>
+        </article>
+      `).join('');
+      reveal.observeNew(grid.querySelectorAll('.fade-up'));
+      pick.forEach(t=>{
+        const root = document.getElementById('rcar-'+t.slug);
+        const imgs = (t.images||[]).slice(0,5);
+        if (root && imgs.length) new Carousel(root, imgs, {autoplay:true, interval:3800});
+      });
+    }).catch(err=>{ console.error("Research load error:",err); document.getElementById('featResearch').innerHTML = '<p class="text-sm text-slate-500">Add items to <code>data/research.json</code>.</p>'; });
+
+    // ---------- Achievements ----------
+    j('data/achievements.json').then(items=>{
+      const el = document.getElementById('homeAchievements');
+      const chips = items.slice(0,12).map(a=>`
+        <a ${a.link?`href="${esc(a.link)}" target="_blank" rel="noreferrer"`:''}
+           class="px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-sm hover:shadow fade-up">
+          ${esc(a.title)}${a.year?` — ${esc(a.year)}`:''}
+        </a>`).join('');
+      el.innerHTML = chips + chips; // duplicate for seamless marquee
+      reveal.observeNew(el.querySelectorAll('.fade-up'));
+    }).catch(err=>{ console.error("Achievements load error:",err); });
+
+    // ---------- Publications ----------
+    j('data/publications.json').then(items=>{
+      const el = document.getElementById('homePubs');
+      el.innerHTML = items.slice(0,3).map(pub=>{
+        const authors = Array.isArray(pub.authors) ? pub.authors.join(', ') : (pub.authors || '');
+        return `
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 fade-up">
+            <p class="font-semibold">${esc(pub.title)}</p>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              ${esc(authors)}${pub.year?` (${esc(pub.year)})`:''}. ${esc(pub.extra||'')}
+              ${pub.pdf?` · <a href="${esc(pub.pdf)}" class="underline" target="_blank" rel="noreferrer">PDF</a>`:''}
+            </p>
+          </div>`;
+      }).join('');
+      reveal.observeNew(el.querySelectorAll('.fade-up'));
+    }).catch(err=>{ console.error("Publications load error:",err); });
+
+    // ---------- Profile slideshow ----------
+    function probe(src){
+      return new Promise((resolve, reject) => {
+        const im = new Image();
+        im.onload = () => resolve(src);
+        im.onerror = reject;
+        im.src = src;
+      });
+    }
+    async function initProfileRotator(){
+      const el = document.getElementById('profileRotator');
+      if (!el) return;
+
+      const candidates = [];
+      if (window._extraProfileCandidate) candidates.push(fixSrc(window._extraProfileCandidate));
+      candidates.push('assets/profile.jpg');
+      for (let i=1;i<=12;i++) candidates.push(`assets/profile${i}.jpg`);
+
+      const found = [];
+      for (const src of candidates) {
+        try { // note: sequential probe to avoid spamming
+          /* eslint-disable no-await-in-loop */
+          await probe(src);
+          if (!found.includes(src)) found.push(src);
+        } catch(_) {}
+      }
+      if (!found.length) return; // keep fallback <img>
+
+      el.innerHTML = '';
+      found.forEach((src) => {
+        const slide = document.createElement('div');
+        slide.className = 'absolute inset-0 opacity-0 transition-opacity duration-700';
+        const img = document.createElement('img');
+        img.src = src; img.alt=''; img.loading='lazy'; img.className='w-full h-full object-cover';
+        if (!reduced) img.classList.add('kenburns');
+        img.onerror = () => { img.onerror=null; img.src='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800"><rect width="100%" height="100%" fill="#e2e8f0"/></svg>'); };
+        slide.appendChild(img);
+        el.appendChild(slide);
+      });
+      const slides = [...el.children];
+      let i = 0; const show = k => slides.forEach((s,n)=> s.style.opacity = (n===k?'1':'0'));
+      show(0);
+      if (reduced || slides.length < 2) return;
+      let timer = setInterval(()=>{ i=(i+1)%slides.length; show(i); }, 4000);
+      el.addEventListener('mouseenter', ()=>{ clearInterval(timer); });
+      el.addEventListener('mouseleave', ()=>{ timer = setInterval(()=>{ i=(i+1)%slides.length; show(i); }, 4000); });
+    }
+    initProfileRotator();
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en" class="scroll-smooth"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>STM32 Engine Ignition (ECU) — Project</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}</style></head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+<header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/70 backdrop-blur">
+  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+    <a id="siteName" href="/" class="font-semibold">Md Shakil Tanvir</a>
+    <nav id="nav" class="hidden md:flex gap-6 text-sm"></nav>
+    <div class="flex gap-2"><button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border">🌓</button><button id="menuBtn" class="md:hidden px-3 py-1.5 text-sm rounded-xl border">☰</button></div>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden border-t bg-white dark:bg-slate-950"><div class="container px-4 py-3 grid grid-cols-2 gap-3 text-sm"></div></div>
+</header>
+
+<main class="container mx-auto px-4 py-10">
+  <nav class="text-sm text-slate-500"><a href="/">Home</a> › <a href="/projects/">Projects</a> › ECU</nav>
+  <h1 class="text-3xl font-bold mt-2" id="title">STM32 Engine Ignition (ECU)</h1>
+  <p class="text-slate-600 dark:text-slate-400 mt-1" id="summary">60-2 encoder, multi-cylinder scheduling, dynamic dwell.</p>
+
+  <!-- carousel -->
+  <div class="mt-6" id="carousel"></div>
+
+  <!-- details -->
+  <section class="mt-8 prose prose-slate dark:prose-invert max-w-none">
+    <h2>Overview</h2>
+    <p>Real-time ignition control on STM32 with 60-2 crank encoder, dynamic dwell and multi-cylinder scheduling.</p>
+    <ul class="list-disc pl-6">
+      <li>STM32 HAL / LL (MISRA-style C)</li>
+      <li>Timer capture/compare with interrupt-driven scheduling</li>
+      <li>Safety checks and stall detection</li>
+    </ul>
+  </section>
+
+  <!-- image grid with lightbox -->
+  <section class="mt-8">
+    <h2 class="text-xl font-semibold">Gallery</h2>
+    <div id="gallery" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3"></div>
+  </section>
+</main>
+
+<footer class="border-t border-slate-200 dark:border-slate-800"><div class="container mx-auto px-4 py-8 text-sm text-slate-500">© <span id="year"></span> Md Shakil Tanvir</div></footer>
+<script src="../assets/site.js"></script>
+<script>
+  Portfolio.initUI(); Portfolio.hydrateChrome();
+  // pull from projects.json by slug "ecu"
+  Portfolio.j('../data/projects.json').then(items=>{
+    const ecu = items.find(p => p.slug === 'ecu');
+    if (!ecu) return;
+    document.getElementById('title').textContent = ecu.title;
+    document.getElementById('summary').textContent = ecu.summary || '';
+
+    // main carousel (all images)
+    const carRoot = document.getElementById('carousel');
+    if (ecu.images?.length) new Portfolio.Carousel(carRoot, ecu.images);
+
+    // lightbox grid
+    const g = document.getElementById('gallery');
+    g.innerHTML = (ecu.images||[]).map(src => `
+      <img src="${Portfolio.esc(src)}" class="w-full h-auto rounded-xl" loading="lazy" alt="${Portfolio.esc(ecu.title)}">
+    `).join('');
+    Portfolio.enableLightbox(g);
+  });
+</script>
+</body></html>

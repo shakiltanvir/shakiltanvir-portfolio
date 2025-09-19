@@ -1,0 +1,43 @@
+[
+  {
+    "role": "VP of Engineering, Embedded Systems",
+    "org": "Spectrum Engineering Consortium Ltd. / Cybernetics Hi Tech (Pvt) Ltd",
+    "start": "Mar 2024",
+    "end": "Present",
+    "summary": "Led embedded R&D for robotics, automation, IoT, and smart energy projects.",
+    "bullets": [
+      "Engineered multi-protocol control systems (Modbus TCP/RTU, DLMS/COSEM, STS/CTS).",
+      "Promoted for technical and leadership excellence."
+    ]
+  },
+  {
+    "role": "Lead Embedded Systems Engineer",
+    "org": "Spectrum / Cybernetics Hi Tech",
+    "start": "Dec 2023",
+    "end": "Feb 2024",
+    "summary": "Firmware development for military robotics platform (EOD ROV).",
+     "bullets": [
+      "Developed real-time control systems using RS485  ARM  cortex m4",
+      "Integrated multi-sensor arrays (Motors, controllers, actuators, all together in a single platform).",
+      "Promoted for technical and leadership excellence."
+    ]
+  },
+  {
+    "role": "Embedded Software Engineer",
+    "org": "THT-Space Electrical Company Ltd.",
+    "start": "Apr 2023",
+    "end": "Dec 2023",
+    "summary": "Firmware for USB, BT, BLE, and WiFi thermal printers (RISC-V, SoC)."
+  },
+  {
+    "role": "Trainee Engineer (IoT Solutions)",
+    "org": "ADN Telecom Ltd.",
+    "start": "Nov 2022",
+    "end": "Mar 2023",
+    "summary": "IoT-based monitoring for data centers and PoPs.",
+    "bullets": [
+      "Protocols: EMS, TCP/IP, MQTT, SNMP",
+      "Worked in data centers and NOC"
+    ]
+  }
+]

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Site Admin — Md Shakil Tanvir</title>
+
+  <!-- Tailwind (dev) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- JSZip for "Download ZIP" -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+  <style>
+    html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .glass{backdrop-filter:saturate(180%) blur(10px)}
+    .kbd{border:1px solid rgba(148,163,184,.4); padding:.1rem .35rem; border-radius:.25rem; font-size:.8em}
+    details>summary::-webkit-details-marker{display:none}
+    details>summary{list-style:none; cursor:pointer}
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/70 glass">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="../" class="font-semibold">← View Site</a>
+        <span class="text-slate-400">/</span>
+        <span class="font-semibold">Admin Panel</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 grid lg:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="lg:col-span-3">
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+        <h2 class="font-semibold">Data Sources</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Load or save your site content.</p>
+        <div class="mt-3 space-y-2">
+          <button id="btnLoadHttp" class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900">Load from <span class="font-mono">../data</span></button>
+          <button id="btnChooseFolder" class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900">Choose Project Folder</button>
+          <p class="text-xs text-slate-500">Folder should contain <span class="font-mono">data/</span> and <span class="font-mono">assets/</span>.</p>
+          <div id="chosenPath" class="text-xs text-slate-500"></div>
+        </div>
+
+        <div class="mt-6">
+          <h2 class="font-semibold">Save</h2>
+          <div class="mt-3 grid grid-cols-1 gap-2">
+            <button id="btnSaveDirect" class="px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 disabled:opacity-50" disabled>Save Directly (FS API)</button>
+            <button id="btnSaveZip" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900">Download ZIP</button>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Direct save requires Chrome/Edge desktop.</p>
+        </div>
+
+        <div class="mt-6">
+          <h2 class="font-semibold">Collections</h2>
+          <nav id="tabs" class="mt-2 grid grid-cols-1 gap-2 text-sm"></nav>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Editor Pane -->
+    <section class="lg:col-span-9">
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between gap-2">
+          <h1 id="paneTitle" class="text-xl font-bold">Welcome</h1>
+          <div class="flex items-center gap-2">
+            <button id="btnAdd" class="hidden px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700">Add Item</button>
+            <button id="btnViewJson" class="hidden px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700">View JSON</button>
+          </div>
+        </div>
+        <div id="editor" class="mt-4 space-y-3"></div>
+      </div>
+    </section>
+  </main>
+
+  <template id="tpl-item-card">
+    <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <summary class="flex items-center justify-between gap-3 p-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900">
+        <span class="font-medium truncate item-title">Item</span>
+        <div class="flex items-center gap-2">
+          <button type="button" class="btn-up px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-700">↑</button>
+          <button type="button" class="btn-down px-2 py-1 text-xs rounded border border-slate-200 dark:border-slate-700">↓</button>
+          <button type="button" class="btn-delete px-2 py-1 text-xs rounded border border-rose-200 text-rose-600 dark:border-rose-800">Delete</button>
+        </div>
+      </summary>
+      <div class="p-4 space-y-3 item-body"></div>
+    </details>
+  </template>
+
+  <!-- Password Modal -->
+  <dialog id="passwordDlg" class="backdrop:bg-black/40 rounded-xl p-0 w-[22rem]">
+    <form method="dialog" class="p-4">
+      <h3 class="font-semibold text-lg">Admin Password</h3>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Enter the password defined in <code>data/site.json</code> (<span class="font-mono">admin_password</span>).</p>
+      <input id="pwdInput" type="password" class="mt-3 w-full px-3 py-2 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900" placeholder="Password" />
+      <div class="mt-4 flex justify-end gap-2">
+        <button value="cancel" class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700">Cancel</button>
+        <button id="pwdOk" value="ok" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-500">Enter</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    // ------------------ Utils ------------------
+    const $ = s => document.querySelector(s);
+    const ok = r => { if(!r.ok) throw new Error(r.status); return r; };
+    const j = p => fetch(p, {cache:'no-store'}).then(ok).then(r=>r.json());
+    function esc(v){ if(v==null) return ''; if(Array.isArray(v)) v=v.join(', '); v=String(v); return v.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    // Theme
+    (function theme(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      if (saved) root.classList.toggle('dark', saved==='dark');
+      $('#themeToggle').onclick = () => { const d=root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); };
+    })();
+
+    // Collections and schemas
+    const collections = [
+      {key:'site', label:'Site', file:'site.json', type:'single'},
+      {key:'stats', label:'Stats', file:'stats.json', type:'single'},
+      {key:'skills', label:'Skills', file:'skills.json', type:'single'},
+      {key:'academic', label:'Academic', file:'academic.json', type:'array',
+        fields:[
+          {k:'degree', t:'text', req:true},
+          {k:'field', t:'text'},
+          {k:'school', t:'text'},
+          {k:'year', t:'text'},
+          {k:'notes', t:'textarea'},
+          {k:'image', t:'text', hint:'assets/academic-1.jpg (optional)'}
+        ]},
+      {key:'experience', label:'Experience', file:'experience.json', type:'array',
+        fields:[
+          {k:'role', t:'text', req:true},
+          {k:'org', t:'text', req:true},
+          {k:'start', t:'text', req:true},
+          {k:'end', t:'text'},
+          {k:'summary', t:'textarea'},
+          {k:'bullets', t:'list', hint:'One per line'},
+          {k:'image', t:'text', hint:'assets/exp-1.jpg (optional)'}
+        ]},
+      {key:'achievements', label:'Achievements', file:'achievements.json', type:'array',
+        fields:[
+          {k:'title', t:'text', req:true},
+          {k:'year', t:'text'},
+          {k:'org', t:'text'},
+          {k:'link', t:'text'},
+          {k:'image', t:'text', hint:'assets/ach-1.jpg (optional)'}
+        ]},
+      {key:'projects', label:'Projects', file:'projects.json', type:'array',
+        fields:[
+          {k:'slug', t:'text', req:true},
+          {k:'title', t:'text', req:true},
+          {k:'summary', t:'textarea'},
+          {k:'images', t:'list', hint:'assets/proj-*.jpg'},
+          {k:'tags', t:'csv', hint:'Comma separated'},
+          {k:'detail', t:'text', hint:'/projects/your-page.html'}
+        ]},
+      {key:'research', label:'Research', file:'research.json', type:'array',
+        fields:[
+          {k:'slug', t:'text', req:true},
+          {k:'title', t:'text', req:true},
+          {k:'summary', t:'textarea'},
+          {k:'images', t:'list', hint:'assets/research-*.jpg'},
+          {k:'detail', t:'text', hint:'/research/your-page.html'}
+        ]},
+      {key:'publications', label:'Publications', file:'publications.json', type:'array',
+        fields:[
+          {k:'title', t:'text', req:true},
+          {k:'authors', t:'csv', hint:'Comma separated or leave empty'},
+          {k:'year', t:'text'},
+          {k:'venue', t:'text'},
+          {k:'extra', t:'textarea'},
+          {k:'pdf', t:'text', hint:'https://...pdf'},
+          {k:'doi', t:'text'},
+          {k:'thumbnail', t:'text', hint:'assets/pub-1.jpg'}
+        ]}
+    ];
+
+    // In-memory state
+    const state = {
+      // data: {site: {...}, stats:{...}, skills:{skills:[]}, academic:[], ...}
+      data:{},
+      // uploads: Map<targetPath, File> e.g. 'assets/proj-ecu3.jpg' => File
+      uploads: new Map(),
+      // File System Access API
+      rootHandle: null
+    };
+
+    // Sidebar tabs
+    function renderTabs(){
+      const tabs = $('#tabs'); tabs.innerHTML = collections.map(c=>`
+        <button data-key="${c.key}" class="tab w-full text-left px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent">${esc(c.label)}</button>
+      `).join('');
+      tabs.querySelectorAll('.tab').forEach(btn=>{
+        btn.onclick = ()=> openCollection(btn.dataset.key);
+      });
+    }
+
+    // Loaders
+    async function loadViaHttp(){
+      try{
+        // Optional password gate (only if site.json has admin_password)
+        let site=null;
+        try { site = await j('../data/site.json'); } catch(e){}
+        if (site?.admin_password) {
+          const dlg = $('#passwordDlg'); const inp = $('#pwdInput');
+          dlg.showModal();
+          return new Promise((resolve)=>{
+            $('#pwdOk').onclick = (ev)=>{
+              ev.preventDefault();
+              if (inp.value === site.admin_password) {
+                dlg.close();
+                actuallyLoadViaHttp().then(resolve);
+              } else {
+                alert('Wrong password');
+              }
+            };
+          });
+        } else {
+          await actuallyLoadViaHttp();
+        }
+      }catch(e){ console.error(e); alert('Failed to load from ../data. Are you serving over http? (file:// cannot fetch)'); }
+    }
+    async function actuallyLoadViaHttp(){
+      for (const c of collections){
+        try{
+          const d = await j('../data/'+c.file);
+          if (c.key==='skills' && Array.isArray(d)) state.data[c.key] = {skills:d}; // tolerate array-only
+          else state.data[c.key] = d;
+        }catch(e){
+          console.warn('Missing', c.file);
+          state.data[c.key] = (c.type==='array')?[]:{};
+        }
+      }
+      $('#chosenPath').textContent = 'Loaded from ../data (HTTP)';
+      $('#btnSaveDirect').disabled = !state.rootHandle;
+      openCollection('site');
+    }
+
+    async function chooseFolder(){
+      try{
+        const h = await window.showDirectoryPicker();
+        state.rootHandle = h;
+        // verify structure
+        const dataHandle = await h.getDirectoryHandle('data', {create:false}).catch(()=>null);
+        const assetsHandle = await h.getDirectoryHandle('assets', {create:false}).catch(()=>null);
+        if (!dataHandle || !assetsHandle) { alert('Selected folder must contain data/ and assets/'); state.rootHandle = null; return; }
+
+        // Load all JSON from disk
+        for (const c of collections){
+          try{
+            const fh = await dataHandle.getFileHandle(c.file);
+            const file = await fh.getFile();
+            const txt = await file.text();
+            const d = JSON.parse(txt);
+            if (c.key==='skills' && Array.isArray(d)) state.data[c.key] = {skills:d};
+            else state.data[c.key] = d;
+          }catch(e){
+            console.warn('Missing', c.file, 'creating default');
+            state.data[c.key] = (c.type==='array')?[]:{};
+          }
+        }
+        $('#chosenPath').textContent = 'Folder: ' + h.name;
+        $('#btnSaveDirect').disabled = false;
+        openCollection('site');
+      }catch(e){ if (e.name!=='AbortError') alert('Folder access was not granted.'); }
+    }
+
+    // Save: ZIP download
+    async function saveAsZip(){
+      const zip = new JSZip();
+      // JSON
+      for (const c of collections){
+        const path = 'data/'+c.file;
+        const val = normalizeOut(c.key, state.data[c.key]);
+        zip.file(path, JSON.stringify(val, null, 2));
+      }
+      // uploads
+      for (const [path, file] of state.uploads.entries()){
+        zip.file(path, file);
+      }
+      const blob = await zip.generateAsync({type:'blob'});
+      saveAs(blob, 'site-content.zip');
+      alert('ZIP prepared. Extract into your project root.');
+    }
+
+    // Save: Direct (File System Access API)
+    async function saveDirect(){
+      if (!state.rootHandle) { alert('Choose your project folder first.'); return; }
+      const dataDir = await state.rootHandle.getDirectoryHandle('data', {create:true});
+      const assetsDir = await state.rootHandle.getDirectoryHandle('assets', {create:true});
+
+      // Write JSON
+      for (const c of collections){
+        const fh = await dataDir.getFileHandle(c.file, {create:true});
+        const ws = await fh.createWritable();
+        const val = normalizeOut(c.key, state.data[c.key]);
+        await ws.write(new Blob([JSON.stringify(val, null, 2)], {type:'application/json'}));
+        await ws.close();
+      }
+      // Write uploads
+      for (const [path, file] of state.uploads.entries()){
+        // path like 'assets/xyz.jpg'
+        const rel = path.replace(/^assets\//,'');
+        const fh = await assetsDir.getFileHandle(rel, {create:true});
+        const ws = await fh.createWritable();
+        await ws.write(file);
+        await ws.close();
+      }
+      alert('Saved!');
+    }
+
+    // Normalize for output (e.g., skills can be {skills:[...]} or just array)
+    function normalizeOut(key, val){
+      if (key==='skills' && val && Array.isArray(val.skills)) return {skills:[...val.skills]};
+      return val;
+    }
+
+    // ------------------ Editor rendering ------------------
+    function openCollection(key){
+      const col = collections.find(x=>x.key===key);
+      if (!col) return;
+      $('#paneTitle').textContent = col.label;
+      const ed = $('#editor'); ed.innerHTML = '';
+      $('#btnAdd').classList.toggle('hidden', col.type!=='array' && key!=='skills');
+      $('#btnViewJson').classList.remove('hidden');
+      $('#btnAdd').onclick = ()=> addItem(key);
+
+      if (col.type==='single' || key==='skills' || key==='site' || key==='stats'){
+        renderSingle(key, col);
+      } else {
+        renderArray(key, col);
+      }
+
+      // highlight active tab
+      $('#tabs').querySelectorAll('.tab').forEach(b=>{
+        b.classList.toggle('border', b.dataset.key===key);
+        b.classList.toggle('border-slate-300', b.dataset.key===key);
+        b.classList.toggle('dark:border-slate-600', b.dataset.key===key);
+      });
+
+      // JSON viewer
+      $('#btnViewJson').onclick = ()=>{
+        const pre = document.createElement('pre');
+        pre.className='mt-3 p-3 rounded bg-slate-50 dark:bg-slate-900 overflow-auto text-xs';
+        pre.textContent = JSON.stringify(state.data[key], null, 2);
+        ed.appendChild(pre);
+      };
+    }
+
+    function inputRow(label, el, hint){
+      const wrap = document.createElement('div');
+      wrap.innerHTML = `
+        <label class="block text-sm font-medium">${esc(label)}</label>
+        <div class="mt-1"></div>
+        ${hint?`<p class="text-xs text-slate-500 mt-1">${esc(hint)}</p>`:''}
+      `;
+      wrap.querySelector('div').appendChild(el);
+      return wrap;
+    }
+    function textInput(value=''){ const i=document.createElement('input'); i.type='text'; i.value=value||''; i.className='w-full px-3 py-2 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900'; return i; }
+    function textArea(value=''){ const i=document.createElement('textarea'); i.rows=3; i.value=value||''; i.className='w-full px-3 py-2 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900'; return i; }
+
+    function renderSingle(key, col){
+      const ed = $('#editor');
+      const box = document.createElement('div');
+      box.className='grid md:grid-cols-2 gap-4';
+
+      const val = state.data[key] || (key==='skills'?{skills:[]} : {});
+      // special cases
+      if (key==='site'){
+        const name = textInput(val.name);
+        const headline = textInput(val.headline);
+        const subtitle = textArea(val.subtitle);
+        const photo = textInput(val.photo);
+        const email = textInput(val?.contact?.email || '');
+        const linkedin = textInput(val?.links?.linkedin || '');
+        const website = textInput(val?.links?.website || '');
+        const password = textInput(val?.admin_password || '');
+
+        const navArea = textArea((val.nav||[]).map(n=>`${n.label} | ${n.href}`).join('\n'));
+
+        box.appendChild(inputRow('Name', name));
+        box.appendChild(inputRow('Headline', headline));
+        box.appendChild(inputRow('Subtitle', subtitle));
+        box.appendChild(inputRow('Main Photo (assets/profile.jpg or URL)', photo, 'Shown on homepage (also used in slideshow if provided).'));
+        box.appendChild(inputRow('Email', email));
+        box.appendChild(inputRow('LinkedIn', linkedin));
+        box.appendChild(inputRow('Website', website));
+        box.appendChild(inputRow('Admin Password (optional)', password, 'If set, the admin will request this on load.'));
+
+        const navWrap = document.createElement('div');
+        navWrap.className='md:col-span-2';
+        navWrap.appendChild(inputRow('Navigation (one per line: Label | href)', navArea));
+        ed.appendChild(box);
+
+        // Save back on change
+        ed.addEventListener('input', ()=>{
+          state.data.site = {
+            name: name.value.trim(),
+            headline: headline.value.trim(),
+            subtitle: subtitle.value,
+            photo: photo.value.trim(),
+            links: { linkedin: linkedin.value.trim(), website: website.value.trim() },
+            contact: { email: email.value.trim() },
+            admin_password: password.value.trim() || undefined,
+            nav: navArea.value.split('\n').map(l=>{
+              const [label, href] = l.split('|').map(s=>s?.trim()).filter(Boolean);
+              return label && href ? {label, href} : null;
+            }).filter(Boolean)
+          };
+        }, {once:false});
+        ed.appendChild(navWrap);
+      }
+      else if (key==='stats'){
+        const exp = textInput(val.experience_years || '');
+        const pro = textInput(val.projects || '');
+        const pub = textInput(val.publications || '');
+        box.appendChild(inputRow('Experience (years)', exp));
+        box.appendChild(inputRow('Projects (count)', pro));
+        box.appendChild(inputRow('Publications (count)', pub));
+        ed.appendChild(box);
+        ed.addEventListener('input', ()=>{
+          state.data.stats = { experience_years: exp.value.trim(), projects: pro.value.trim(), publications: pub.value.trim() };
+        });
+      }
+      else if (key==='skills'){
+        const skills = textArea((val.skills||[]).join('\n'));
+        const up = document.createElement('input'); up.type='file'; up.multiple=true; up.accept="image/*"; up.className='mt-2';
+        ed.appendChild(inputRow('Skills (one per line)', skills));
+        ed.appendChild(inputRow('Upload images into assets/ (optional bulk)', up, 'These are just copied to /assets; not linked automatically.'));
+        skills.addEventListener('input', ()=>{ state.data.skills = {skills: skills.value.split('\n').map(s=>s.trim()).filter(Boolean)}; });
+        up.addEventListener('change', ()=>{ for(const f of up.files){ state.uploads.set('assets/'+f.name, f); } alert('Added '+up.files.length+' file(s) to upload list.'); });
+      }
+    }
+
+    function renderArray(key, col){
+      const ed = $('#editor'); ed.innerHTML = '';
+      const arr = Array.isArray(state.data[key]) ? state.data[key] : [];
+      const list = document.createElement('div'); list.className='space-y-3';
+      ed.appendChild(list);
+
+      function rebuild(){
+        list.innerHTML='';
+        arr.forEach((item, idx)=>{
+          const card = document.importNode($('#tpl-item-card').content, true);
+          const sum = card.querySelector('.item-title');
+          const body = card.querySelector('.item-body');
+          sum.textContent = item.title || item.degree || item.role || item.slug || ('Item '+(idx+1));
+
+          // Build fields
+          for (const f of col.fields){
+            let inputEl;
+            const val = item[f.k];
+            if (f.t==='text'){
+              inputEl = textInput(val||''); inputEl.oninput=()=>{ item[f.k]=inputEl.value; sum.textContent=item.title||item.degree||item.role||item.slug||('Item '+(idx+1)); };
+            } else if (f.t==='textarea'){
+              inputEl = textArea(val||''); inputEl.oninput=()=>{ item[f.k]=inputEl.value; };
+            } else if (f.t==='csv'){
+              inputEl = textInput(Array.isArray(val)?val.join(', '):(val||'')); inputEl.oninput=()=>{ const v=inputEl.value.trim(); item[f.k]= v? v.split(',').map(s=>s.trim()).filter(Boolean):[]; };
+            } else if (f.t==='list'){
+              inputEl = textArea(Array.isArray(val)?val.join('\n'):''); inputEl.oninput=()=>{ item[f.k]= inputEl.value.split('\n').map(s=>s.trim()).filter(Boolean); };
+            }
+            body.appendChild(inputRow((f.req?'* ':'')+f.k, inputEl, f.hint||''));
+          }
+
+          // Image uploader helper for common fields
+          const uploader = document.createElement('div');
+          uploader.className='pt-2 border-t border-slate-200 dark:border-slate-800';
+          if (col.key==='projects' || col.key==='research'){
+            const lab = document.createElement('label'); lab.className='block text-sm font-medium'; lab.textContent='Upload images (adds to assets/ and appends filenames to images[])';
+            const inp = document.createElement('input'); inp.type='file'; inp.multiple=true; inp.accept='image/*';
+            inp.className='mt-2';
+            inp.onchange = ()=>{
+              item.images = Array.isArray(item.images)?item.images:[];
+              for(const f of inp.files){
+                const target = 'assets/'+f.name;
+                state.uploads.set(target, f);
+                if (!item.images.includes(target)) item.images.push(target);
+              }
+              rebuild();
+            };
+            uploader.append(lab, inp);
+          } else {
+            const lab = document.createElement('label'); lab.className='block text-sm font-medium'; lab.textContent='Upload image (adds to assets/ and sets the "image"/"thumbnail" field if present)';
+            const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.className='mt-2';
+            inp.onchange = ()=>{
+              const f = inp.files[0]; if (!f) return;
+              const target = 'assets/'+f.name;
+              state.uploads.set(target, f);
+              if ('image' in item) item.image = target;
+              if ('thumbnail' in item) item.thumbnail = target;
+              rebuild();
+            };
+            uploader.append(lab, inp);
+          }
+          body.appendChild(uploader);
+
+          // Actions
+          card.querySelector('.btn-delete').onclick = ()=>{ arr.splice(idx,1); rebuild(); };
+          card.querySelector('.btn-up').onclick = ()=>{ if(idx>0){ const t=arr[idx-1]; arr[idx-1]=arr[idx]; arr[idx]=t; rebuild(); } };
+          card.querySelector('.btn-down').onclick = ()=>{ if(idx<arr.length-1){ const t=arr[idx+1]; arr[idx+1]=arr[idx]; arr[idx]=t; rebuild(); } };
+
+          list.appendChild(card);
+        });
+      }
+      rebuild();
+    }
+
+    function addItem(key){
+      const col = collections.find(x=>x.key===key);
+      if (!col) return;
+      const arr = Array.isArray(state.data[key]) ? state.data[key] : (state.data[key]=[]);
+      const empty = {};
+      for (const f of col.fields){ empty[f.k] = (f.t==='list'||f.t==='csv')?[]:''; }
+      if (key==='projects' || key==='research') empty.images = [];
+      arr.push(empty);
+      renderArray(key, col);
+    }
+
+    // ------------------ Wire UI ------------------
+    renderTabs();
+    $('#btnLoadHttp').onclick = loadViaHttp;
+    $('#btnChooseFolder').onclick = chooseFolder;
+    $('#btnSaveZip').onclick = saveAsZip;
+    $('#btnSaveDirect').onclick = saveDirect;
+
+    // Load site name (if accessible) for header polish (non-blocking)
+    j('../data/site.json').then(site=>{ document.title = (site?.name? site.name+' — ':'')+'Site Admin'; }).catch(()=>{});
+  </script>
+</body>
+</html>

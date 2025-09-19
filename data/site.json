@@ -1,0 +1,25 @@
+{
+  "name": "Shakil Tanvir",
+  "headline": "Building reliable embedded systems that bridge research and real-world impact.",
+  "subtitle": "Secure hardware wallets (ATECC608A), STM32 ignition, smart energy (DLMS/COSEM, STS), defense ROVs, agritech automation.",
+  "photo": "assets/profile.jpg",
+  "about": "Embedded Systems & Robotics Engineer. Founder of Creative Factory. I turn research into robust field devices.",
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/shakiltanvir",
+    "website": "https://sites.google.com/view/shakiltanvir"
+  },
+  "contact": {
+    "email": "shakiltanvir99@gmail.com"
+  },
+  "nav": [
+    { "label": "About", "href": "about" },
+    { "label": "Academic", "href": "academic" },
+    { "label": "Experience", "href": "experience" },
+    { "label": "Projects", "href": "projects" },
+    { "label": "Achievements", "href": "achievements" },
+    { "label": "Research", "href": "research" },
+    { "label": "Publications", "href": "publications" },
+    { "label": "Online", "href": "online" },
+    { "label": "Contact", "href": "contact" }
+  ]
+}
