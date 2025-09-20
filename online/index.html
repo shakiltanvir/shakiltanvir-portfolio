@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gallery — Videos & Photos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .glass{backdrop-filter:saturate(180%) blur(10px)}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .line-clamp-3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .play-badge{
+      position:absolute; inset:auto 0 0 auto; margin:8px;
+      background:rgba(0,0,0,.7); color:#fff; border-radius:12px; padding:4px 8px; font-size:12px
+    }
+    .dot{width:10px;height:10px;border-radius:9999px;background:#cbd5e1}
+    .dot.active{background:#1d4ed8}
+  </style>
+</head>
+<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 glass">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a id="siteName" href="../" class="font-semibold">Md Shakil Tanvir</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="../#online">Back to Home</a>
+      </nav>
+      <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex items-end justify-between gap-3">
+      <h1 class="text-3xl font-extrabold">Gallery</h1>
+      <span id="status" class="text-sm text-slate-500"></span>
+    </div>
+
+    <!-- Gallery grid (videos + albums together) -->
+    <section class="mt-6">
+      <div id="count" class="text-xs text-slate-500"></div>
+      <div id="grid" class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <!-- Video modal -->
+  <div id="vModal" class="fixed inset-0 z-[70] bg-black/60 hidden">
+    <div class="absolute inset-0" id="vModalBg"></div>
+    <div class="absolute inset-x-3 md:inset-x-8 top-16 bottom-8 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 id="vTitle" class="font-semibold truncate">—</h3>
+        <div class="flex items-center gap-2">
+          <a id="vWatch" href="#" target="_blank" rel="noreferrer" class="text-sm underline">Open on YouTube ↗</a>
+          <button id="vClose" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">✕</button>
+        </div>
+      </div>
+      <div class="p-3 h-[calc(100%-56px)]">
+        <div class="h-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900">
+          <iframe id="vPlayer" class="w-full h-full" src="" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Album modal -->
+  <div id="gModal" class="fixed inset-0 z-[70] bg-black/60 hidden">
+    <div class="absolute inset-0" id="gModalBg"></div>
+    <div class="absolute inset-x-3 md:inset-x-8 top-10 bottom-8 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 id="gTitle" class="font-semibold truncate">—</h3>
+        <button id="gClose" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">✕</button>
+      </div>
+      <div class="grid md:grid-cols-12 h-[calc(100%-56px)]">
+        <div class="md:col-span-7 p-3">
+          <div id="gCarousel" class="relative h-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden">
+            <!-- slides will be injected before controls -->
+            <button id="gPrev" class="absolute top-1/2 -translate-y-1/2 left-2 bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-full p-2">❮</button>
+            <button id="gNext" class="absolute top-1/2 -translate-y-1/2 right-2 bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-full p-2">❯</button>
+            <div id="gDots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2"></div>
+          </div>
+        </div>
+        <div class="md:col-span-5 p-4 flex flex-col gap-3">
+          <p id="gSummary" class="text-sm text-slate-600 dark:text-slate-300">—</p>
+          <div id="gMeta" class="text-sm space-y-2"></div>
+          <div id="gTagsView" class="flex flex-wrap gap-2"></div>
+          <div id="gImgMsg" class="text-sm text-slate-700 dark:text-slate-200 border-t border-slate-200 dark:border-slate-800 pt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Utilities ----------
+    const $  = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
+    const ok = r=>{ if(!r.ok) throw new Error(r.status); return r; };
+    const j  = p=>fetch(p,{cache:'no-store'}).then(ok).then(r=>r.json());
+    function esc(v){ if(v==null) return ''; if(Array.isArray(v)) v=v.join(', '); v=String(v); return v.replace(/[&<>\"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[m])); }
+    const clamp = (s, n=120)=> (s||'').length>n ? (s.slice(0,n-1)+'…') : (s||'');
+
+    // Theme
+    (function theme(){
+      const root=document.documentElement;
+      const saved=localStorage.getItem('theme');
+      if(saved) root.classList.toggle('dark', saved==='dark');
+      $('#themeToggle').onclick=()=>{ const d=root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); };
+    })();
+
+    // Paths for gallery images
+    function fixSrc(s){
+      if(!s) return s;
+      const str=String(s).trim();
+      if (/^(https?:)?\\/\\//.test(str) || str.startsWith('/') || str.startsWith('../') || str.startsWith('./')) return str;
+      if (str.startsWith('assets/')) return '../'+str.replace(/^\\/+/, '');
+      if (str.startsWith('gallery/')) return '../assets/'+str;
+      return '../assets/'+str;
+    }
+
+    // YouTube helpers
+    function parseYouTubeId(linkOrId=''){
+      const s=String(linkOrId);
+      if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+      try{
+        const u = new URL(s);
+        if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+        if (u.searchParams.get('v')) return u.searchParams.get('v');
+        if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/')[2]||'';
+        if (u.pathname.startsWith('/embed/'))  return u.pathname.split('/')[2]||'';
+      }catch(_){}
+      return '';
+    }
+    const ytThumb = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
+    const ytEmbed = (id,auto=false)=> `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?modestbranding=1&rel=0${auto?'&autoplay=1':''}`;
+
+    // ---------- State ----------
+    const S = { data:{videos:[],gallery:[]}, items:[], current:null, gi:0 };
+
+    // Load data
+    Promise.all([
+      j('../data/site.json').catch(()=>({})),
+      j('../data/online.json')
+    ]).then(([site, data])=>{
+      if(site?.name) $('#siteName').textContent = site.name;
+      S.data = data || {videos:[], gallery:[]};
+      buildItems();
+      renderGrid();
+      // deep links
+      const params = new URLSearchParams(location.hash.slice(1));
+      if (params.get('g')) openAlbum(params.get('g'));
+      if (params.get('v')) openVideo(params.get('v'));
+    }).catch(err=>{
+      console.error(err);
+      $('#status').textContent = 'Failed to load data/online.json';
+    });
+
+    function buildItems(){
+      // albums -> items
+      const albums = (S.data.gallery||[]).map(g=>{
+        const cover = g.cover || (g.images&&g.images[0]?.src) || '';
+        return {
+          kind:'album',
+          slug: String(g.slug||''),
+          title: g.title || '',
+          date: g.date || '',
+          summary: g.summary || '',
+          location: g.location || '',
+          tags: g.tags || [],
+          cover: cover ? fixSrc(cover) : '',
+          images: g.images || []
+        };
+      });
+      // videos -> items
+      const vids = (S.data.videos||[]).map(v=>{
+        const id = parseYouTubeId(v.id||v.link||'');
+        return {
+          kind:'video',
+          id, link: v.link || (id ? `https://youtu.be/${id}` : ''),
+          title: v.title || '',
+          date: v.date || '',
+          summary: v.desc || '',
+          tags: v.tags || [],
+          thumb: id ? ytThumb(id) : '',
+          playlist: v.playlist || ''
+        };
+      });
+      const all = [...albums, ...vids];
+      // sort newest first by date
+      all.sort((a,b)=> (new Date(b.date||0).getTime()) - (new Date(a.date||0).getTime()));
+      S.items = all;
+      $('#count').textContent = `${all.length} item${all.length!==1?'s':''}`;
+    }
+
+    function cardHTML(it){
+      const mediaHTML = it.kind==='video'
+        ? `<div class="relative mb-3 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+             <img src="${esc(it.thumb)}" alt="" class="w-full aspect-video object-cover" loading="lazy">
+             <span class="play-badge">▶ Video</span>
+           </div>`
+        : `<div class="mb-3 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+             ${it.cover ? `<img src="${esc(it.cover)}" alt="" class="w-full aspect-video object-cover" loading="lazy">`
+                         : `<div class="w-full aspect-video bg-slate-100 dark:bg-slate-900"></div>`}
+           </div>`;
+      const subtitle = [it.date, it.location, it.playlist].filter(Boolean).join(' • ');
+      const tags = (it.tags||[]).slice(0,4).map(t=>`<span class="px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700">${esc(t)}</span>`).join(' ');
+      return `
+        <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition cursor-pointer"
+                 data-kind="${it.kind}" data-id="${esc(it.id||'')}" data-slug="${esc(it.slug||'')}">
+          ${mediaHTML}
+          <h3 class="font-semibold line-clamp-2">${esc(it.title||'Untitled')}</h3>
+          ${subtitle?`<p class="text-xs text-slate-500 mt-0.5">${esc(subtitle)}</p>`:''}
+          ${it.summary?`<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-3">${esc(it.summary)}</p>`:''}
+          ${tags?`<div class="mt-2 flex flex-wrap gap-2">${tags}</div>`:''}
+        </article>`;
+    }
+
+    function renderGrid(){
+      const grid = $('#grid'); grid.innerHTML = S.items.map(cardHTML).join('');
+      // bind clicks
+      $$('#grid article').forEach(el=>{
+        el.onclick = ()=>{
+          const kind = el.dataset.kind;
+          if (kind==='video') openVideo(el.dataset.id);
+          else openAlbum(el.dataset.slug);
+        };
+      });
+    }
+
+    // -------- Video modal --------
+    function openVideo(linkOrId){
+      const id = parseYouTubeId(linkOrId);
+      const item = S.items.find(x=> x.kind==='video' && x.id===id);
+      if (!item) return;
+      $('#vTitle').textContent = item.title || 'Video';
+      $('#vPlayer').src = ytEmbed(id, true);
+      $('#vWatch').href = item.link || ('https://youtu.be/'+id);
+      $('#vModal').classList.remove('hidden');
+      const u = new URL(location.href); u.hash = 'v='+encodeURIComponent(id); history.replaceState(null,'',u);
+    }
+    function closeVideo(){
+      $('#vModal').classList.add('hidden');
+      $('#vPlayer').src = '';
+      const u = new URL(location.href); if(u.hash.includes('v=')){ u.hash=''; history.replaceState(null,'',u); }
+    }
+    $('#vModalBg').onclick = closeVideo; $('#vClose').onclick = closeVideo;
+    window.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#vModal').classList.contains('hidden')) closeVideo(); });
+
+    // -------- Album modal + carousel --------
+    function openAlbum(slug){
+      const g = S.items.find(x=> x.kind==='album' && String(x.slug)===String(slug));
+      if (!g) return;
+      S.current = g; S.gi = 0;
+      $('#gTitle').textContent = g.title || '';
+      $('#gSummary').textContent = g.summary || '';
+      const meta = [];
+      if (g.date) meta.push(chip('Date', g.date));
+      if (g.location) meta.push(chip('Location', g.location));
+      $('#gMeta').innerHTML = meta.join(' ');
+      $('#gTagsView').innerHTML = (g.tags||[]).map(t=> `<span class="px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700">${esc(t)}</span>`).join(' ');
+      buildCarousel(g.images||[]);
+      $('#gModal').classList.remove('hidden');
+      const u = new URL(location.href); u.hash = 'g='+encodeURIComponent(slug); history.replaceState(null,'',u);
+    }
+    function chip(label, value){ return `<span class="px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs">${esc(label)}: ${esc(value)}</span>`; }
+    function closeAlbum(){
+      $('#gModal').classList.add('hidden');
+      const u = new URL(location.href); if(u.hash.includes('g=')){ u.hash=''; history.replaceState(null,'',u); }
+    }
+    $('#gModalBg').onclick = closeAlbum; $('#gClose').onclick = closeAlbum;
+    window.addEventListener('keydown', e=>{
+      const open = !$('#gModal').classList.contains('hidden');
+      if (!open) return;
+      if (e.key==='Escape') return closeAlbum();
+      if (e.key==='ArrowRight') return go(S.gi+1);
+      if (e.key==='ArrowLeft') return go(S.gi-1);
+    });
+
+    function buildCarousel(images){
+      const root = $('#gCarousel');
+      // remove old slides
+      $$('.slide', root).forEach(n=> n.remove());
+      $('#gDots').innerHTML = '';
+      images.forEach((im, idx)=>{
+        const s = document.createElement('div');
+        s.className = 'slide absolute inset-0 opacity-0 transition-opacity duration-300';
+        s.innerHTML = `<img src="${fixSrc(im.src)}" alt="" class="w-full h-full object-contain">`;
+        root.insertBefore(s, $('#gPrev'));
+        const d = document.createElement('button');
+        d.className = 'dot'; d.onclick = ()=> go(idx);
+        $('#gDots').appendChild(d);
+      });
+      $('#gPrev').onclick = ()=> go(S.gi-1);
+      $('#gNext').onclick = ()=> go(S.gi+1);
+      go(0);
+    }
+    function go(i){
+      const imgs = S.current?.images || [];
+      if (!imgs.length) return;
+      S.gi = ((i%imgs.length)+imgs.length)%imgs.length;
+      const slides = $$('.slide', $('#gCarousel'));
+      slides.forEach((s,k)=> s.style.opacity = (k===S.gi ? '1':'0'));
+      const dots = $$('#gDots .dot');
+      dots.forEach((d,k)=> d.classList.toggle('active', k===S.gi));
+      $('#gImgMsg').textContent = imgs[S.gi]?.message || '';
+    }
+  </script>
+
+</body>
+</html>

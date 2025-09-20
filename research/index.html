@@ -1,42 +1,270 @@
-<!DOCTYPE html><html lang="en" class="scroll-smooth"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Research — Md Shakil Tanvir</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}</style></head>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Md Shakil Tanvir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .glass{backdrop-filter:saturate(180%) blur(10px)}
+  </style>
+</head>
 <body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-<header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/70 backdrop-blur">
-  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-    <a id="siteName" href="/" class="font-semibold">Md Shakil Tanvir</a>
-    <nav id="nav" class="hidden md:flex gap-6 text-sm"></nav>
-    <div class="flex gap-2"><button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border">🌓</button><button id="menuBtn" class="md:hidden px-3 py-1.5 text-sm rounded-xl border">☰</button></div>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/70 dark:bg-slate-950/60 glass">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a id="siteName" href="../" class="font-semibold">Md Shakil Tanvir</a>
+      <nav class="hidden md:flex gap-6 text-sm"><a class="hover:underline" href="../#research">Back to Home</a></nav>
+      <button id="themeToggle" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-800">🌓</button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-end gap-3">
+      <h1 class="text-3xl font-extrabold">Research</h1>
+      <span id="count" class="text-sm text-slate-500"></span>
+    </div>
+
+    <!-- Controls -->
+    <section class="mt-5 grid gap-3 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <label class="block text-xs text-slate-500 mb-1">Search</label>
+        <input id="q" type="search" placeholder="Search title, summary, tags, venue…" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950" />
+      </div>
+      <div class="md:col-span-4">
+        <label class="block text-xs text-slate-500 mb-1">Sort</label>
+        <select id="sort" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+        </select>
+      </div>
+      <div class="md:col-span-3 flex items-end gap-2">
+        <button id="viewGrid" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800">Grid</button>
+        <button id="viewList" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800">List</button>
+        <button id="clearBtn" class="ml-auto px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800">Clear</button>
+      </div>
+    </section>
+
+    <!-- Dynamic Tag chips (built from JSON) -->
+    <section id="tagBar" class="mt-4 hidden">
+      <div class="text-xs text-slate-500 mb-1">Filter by tags</div>
+      <div id="tags" class="flex flex-wrap gap-2"></div>
+    </section>
+
+    <!-- Grid/List -->
+    <section class="mt-6">
+      <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div id="list" class="hidden divide-y divide-slate-200 dark:divide-slate-800"></div>
+
+      <div class="mt-6 flex justify-center">
+        <button id="loadMore" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800">Load more</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal (detail + lightbox) -->
+  <div id="modal" class="fixed inset-0 z-[70] bg-black/60 hidden">
+    <div class="absolute inset-0" id="modalBg"></div>
+    <div class="absolute inset-x-3 md:inset-x-8 top-16 bottom-8 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 id="mTitle" class="font-semibold truncate">—</h3>
+        <div class="flex items-center gap-2">
+          <a id="mLink" href="#" target="_blank" rel="noreferrer" class="text-sm underline hidden">Open ↗</a>
+          <a id="mPdf" href="#" target="_blank" rel="noreferrer" class="text-sm underline hidden">PDF</a>
+          <button id="mClose" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">✕</button>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-12 h-[calc(100%-56px)]">
+        <div class="md:col-span-7 p-3">
+          <div id="mCarousel" class="relative h-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden"></div>
+        </div>
+        <div class="md:col-span-5 p-4 flex flex-col gap-3">
+          <p id="mSummary" class="text-sm text-slate-600 dark:text-slate-300">—</p>
+          <div id="mMeta" class="text-sm space-y-2"></div>
+          <div id="mTags" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="mobileMenu" class="md:hidden hidden border-t bg-white dark:bg-slate-950"><div class="container px-4 py-3 grid grid-cols-2 gap-3 text-sm"></div></div>
-</header>
-<main class="container mx-auto px-4 py-10">
-  <h1 class="text-3xl font-bold">Research</h1>
-  <p class="text-slate-600 dark:text-slate-400 mt-2">Loaded from <code>data/research.json</code>.</p>
-  <div id="grid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-</main>
-<footer class="border-t border-slate-200 dark:border-slate-800"><div class="container mx-auto px-4 py-8 text-sm text-slate-500">© <span id="year"></span> Md Shakil Tanvir</div></footer>
-<script src="../assets/site.js"></script>
-<script>
-  Portfolio.initUI(); Portfolio.hydrateChrome();
-  Portfolio.j('../data/research.json').then(items=>{
-    const grid = document.getElementById('grid');
-    grid.innerHTML = items.map(t => `
-      <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition">
-        <div class="mb-3" id="car-${t.slug}"></div>
-        <h2 class="font-semibold">${Portfolio.esc(t.title)}</h2>
-        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${Portfolio.esc(t.summary||'')}</p>
-        <a href="${Portfolio.esc(t.detail)}" class="text-sm underline mt-2 inline-block">Open →</a>
-      </article>
-    `).join('');
-    items.forEach(t=>{
-      const r=document.getElementById('car-'+t.slug);
-      const imgs=(t.images||[]).slice(0,3);
-      if(r && imgs.length) new Portfolio.Carousel(r, imgs);
+
+  <script>
+    // ---------- utilities ----------
+    const $ = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
+    const ok = r=>{ if(!r.ok) throw new Error(r.status); return r; };
+    const j = p=>fetch(p,{cache:'no-store'}).then(ok).then(r=>r.json());
+    function esc(v){ if(v==null) return ''; if(Array.isArray(v)) v=v.join(', '); v=String(v); return v.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m])); }
+
+    // Assets helper: prefix relative research paths with ../assets/
+    const ASSET_BASE = '../assets/';
+    function fixSrc(s){
+      if(!s) return s; const str=String(s).trim();
+      if (/^(https?:)?\/\//.test(str) || str.startsWith('/') || str.startsWith('../') || str.startsWith('./')) return str;
+      if (str.startsWith('assets/')) return '../'+str.replace(/^\/*/, '');
+      if (str.startsWith('research/') || str.startsWith('projects/')) return ASSET_BASE + str; // allow cross-ref
+      // fallback: assume it's a file name that lives under assets root
+      return ASSET_BASE + str;
+    }
+
+    // Theme toggle
+    (function theme(){ const root=document.documentElement; const saved=localStorage.getItem('theme'); if(saved) root.classList.toggle('dark', saved==='dark'); $('#themeToggle').onclick=()=>{ const d=root.classList.toggle('dark'); localStorage.setItem('theme', d?'dark':'light'); }; })();
+
+    // Simple card carousel (per-card)
+    class Carousel { constructor(root, images=[]){ this.i=0; this.images=images; this.root=root; this.track=document.createElement('div'); this.track.className='flex h-full transition-transform duration-300 ease-out'; root.className='relative overflow-hidden h-48 md:h-56 lg:h-64 rounded-xl bg-slate-100 dark:bg-slate-900'; root.innerHTML=''; images.forEach(src=>{ const s=document.createElement('div'); s.className='min-w-full h-full'; s.innerHTML=`<img src="${fixSrc(src)}" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'360\'><rect width=\'100%\' height=\'100%\' fill=\'#e2e8f0\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'#64748b\' font-family=\'Inter,Arial\'>image not found</text></svg>')}'">`; this.track.appendChild(s); }); root.appendChild(this.track); if(images.length>1){ const mk=dir=>{ const b=document.createElement('button'); b.className='absolute top-1/2 -translate-y-1/2 '+(dir==='prev'?'left-2':'right-2')+' bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-full p-2'; b.innerHTML=dir==='prev'?'&#10094;':'&#10095;'; b.onclick=()=>this.go(dir==='prev'?this.i-1:this.i+1); return b; }; root.appendChild(mk('prev')); root.appendChild(mk('next')); } this.go(0); }
+      go(i){ this.i=(i+this.images.length)%this.images.length; this.track.style.transform=`translateX(${-this.i*100}%)`; } }
+
+    // Lightbox/Modal carousel for detail
+    class ModalCarousel extends Carousel {
+      constructor(root, images=[]){ super(root, images); root.className='relative overflow-hidden h-full rounded-xl bg-slate-100 dark:bg-slate-900'; this.root = root; this.track.classList.add('items-center'); this.track.style.height='100%'; }
+    }
+
+    // State
+    const state = { all: [], view:'grid', page: 1, pageSize: 12, q:'', tags: new Set(), sort:'new' };
+
+    // Load and hydrate
+    Promise.all([
+      j('../data/site.json').catch(()=>({})),
+      j('../data/research.json')
+    ]).then(([site, items])=>{
+      if(site?.name) $('#siteName').textContent = site.name;
+      state.all = (items||[]);
+      buildTagBar(state.all);
+      bindControls();
+      render();
+      // deep link like #r=slug
+      const params = new URLSearchParams(location.hash.slice(1));
+      const slug = params.get('r'); if (slug) openModalBySlug(slug);
+    }).catch(err=>{
+      console.error(err);
+      $('#grid').innerHTML = '<p class="text-sm text-slate-500">Could not load <code>research.json</code>.</p>';
     });
-  });
-</script>
-</body></html>
+
+    // Build tag chips from JSON
+    function buildTagBar(items){
+      const tagSet = new Set();
+      items.forEach(p => (Array.isArray(p.tags)? p.tags:[]).forEach(t=> tagSet.add(String(t))));
+      const bar = $('#tagBar'); const wrap = $('#tags');
+      if (!tagSet.size){ bar.classList.add('hidden'); return; }
+      bar.classList.remove('hidden'); wrap.innerHTML='';
+      [...tagSet].sort((a,b)=>a.localeCompare(b)).forEach(tag=>{
+        const btn = document.createElement('button');
+        btn.className = 'px-2.5 py-1 text-xs rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900';
+        btn.textContent = tag;
+        btn.onclick = ()=>{ toggleTag(tag); };
+        wrap.appendChild(btn);
+      });
+      refreshTagStyles();
+    }
+    function toggleTag(tag){ if(state.tags.has(tag)) state.tags.delete(tag); else state.tags.add(tag); state.page=1; render(); refreshTagStyles(); }
+    function refreshTagStyles(){ $$('#tags button').forEach(b=>{ const on = state.tags.has(b.textContent); b.classList.toggle('bg-blue-600', on); b.classList.toggle('text-white', on); }); }
+
+    // Controls
+    function bindControls(){
+      $('#q').oninput = (e)=>{ state.q = e.target.value.trim(); state.page = 1; render(); };
+      $('#sort').onchange = (e)=>{ state.sort = e.target.value; state.page = 1; render(); };
+      $('#viewGrid').onclick = ()=>{ state.view='grid'; $('#grid').classList.remove('hidden'); $('#list').classList.add('hidden'); };
+      $('#viewList').onclick = ()=>{ state.view='list'; $('#grid').classList.add('hidden'); $('#list').classList.remove('hidden'); };
+      $('#clearBtn').onclick = ()=>{ state.q=''; state.tags.clear(); state.page=1; $('#q').value=''; render(); refreshTagStyles(); };
+      $('#loadMore').onclick = ()=>{ state.page += 1; render(true); };
+    }
+
+    // Filter/Sort
+    function applyFilters(items){
+      const q = state.q.toLowerCase();
+      let out = items.filter(p=>{
+        const text = [p.title,p.summary,p.venue,p.journal,p.conference,(p.tags||[]).join(' ')].join(' ').toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesTags = !state.tags.size || (p.tags||[]).some(t=> state.tags.has(String(t)));
+        return matchesQ && matchesTags;
+      });
+      const byYear = (x)=> Number(x.year||x.date||0);
+      const byTitle = (x)=> String(x.title||'');
+      if (state.sort==='new') out.sort((a,b)=> byYear(b)-byYear(a) || byTitle(a).localeCompare(byTitle(b)) );
+      else if (state.sort==='old') out.sort((a,b)=> byYear(a)-byYear(b) || byTitle(a).localeCompare(byTitle(b)) );
+      else if (state.sort==='az') out.sort((a,b)=> byTitle(a).localeCompare(byTitle(b)) );
+      else if (state.sort==='za') out.sort((a,b)=> byTitle(b).localeCompare(byTitle(a)) );
+      return out;
+    }
+
+    // Render
+    function render(append=false){
+      const items = applyFilters(state.all);
+      const total = items.length; $('#count').textContent = total ? `${total} item${total>1?'s':''}` : 'No results';
+      const end = Math.min(total, state.page * state.pageSize);
+      const slice = items.slice(0, end);
+
+      const grid = $('#grid'); const list = $('#list');
+      if (!append){ grid.innerHTML=''; list.innerHTML=''; }
+
+      const makeCard = (p)=> `
+        <article class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:shadow transition cursor-pointer" data-slug="${esc(p.slug)}">
+          <div class="mb-3" id="car-${esc(p.slug)}"></div>
+          <h3 class="font-semibold">${esc(p.title)}</h3>
+          ${p.year? `<p class='text-xs text-slate-500 mt-0.5'>${esc(p.year)}${p.venue?` • ${esc(p.venue)}`:''}</p>`:''}
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">${esc(p.summary||'')}</p>
+          ${Array.isArray(p.tags)?`<div class="mt-2 flex flex-wrap gap-2">${p.tags.map(t=>`<span class='px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700'>${esc(t)}</span>`).join('')}</div>`:''}
+          ${(p.detail||p.pdf)?`<span class="text-sm underline mt-2 inline-block">Open →</span>`:''}
+        </article>`;
+
+      const makeRow = (p)=> `
+        <div class="py-4 grid md:grid-cols-12 gap-3 items-center cursor-pointer" data-slug="${esc(p.slug)}">
+          <div class="md:col-span-3">
+            <div id="car-${esc(p.slug)}" class="rounded-xl h-28 bg-slate-100 dark:bg-slate-900 overflow-hidden"></div>
+          </div>
+          <div class="md:col-span-9">
+            <div class="flex items-baseline gap-2"><h3 class="font-semibold">${esc(p.title)}</h3>${p.year?`<span class='text-xs text-slate-500'>• ${esc(p.year)}</span>`:''}${p.venue?`<span class='text-xs text-slate-500'>• ${esc(p.venue)}</span>`:''}</div>
+            <p class="text-sm text-slate-600 dark:text-slate-300">${esc(p.summary||'')}</p>
+            ${Array.isArray(p.tags)?`<div class="mt-2 flex flex-wrap gap-2">${p.tags.map(t=>`<span class='px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700'>${esc(t)}</span>`).join('')}</div>`:''}
+          </div>
+        </div>`;
+
+      slice.forEach(p=>{ if(state.view==='grid') grid.insertAdjacentHTML('beforeend', makeCard(p)); else list.insertAdjacentHTML('beforeend', makeRow(p)); });
+
+      // bind click → modal
+      $$('#grid [data-slug], #list [data-slug]').forEach(el=> el.onclick = ()=> openModalBySlug(el.dataset.slug));
+
+      // lazy-init carousels
+      slice.forEach(p=>{ const root = document.getElementById('car-'+p.slug); const imgs=(p.images||[]); if(root && imgs.length) new Carousel(root, imgs); });
+
+      // load more button
+      $('#loadMore').classList.toggle('hidden', end >= total);
+    }
+
+    // Modal
+    function openModalBySlug(slug){
+      const p = state.all.find(x=> String(x.slug) === String(slug)); if(!p) return;
+      const m = $('#modal'); m.classList.remove('hidden');
+      $('#mTitle').textContent = p.title || '';
+      const link = $('#mLink'); if (p.detail){ link.href = p.detail; link.classList.remove('hidden'); } else link.classList.add('hidden');
+      const pdf = $('#mPdf'); if (p.pdf){ pdf.href = p.pdf; pdf.classList.remove('hidden'); } else pdf.classList.add('hidden');
+      $('#mSummary').textContent = p.summary || '';
+
+      // meta
+      const meta = [];
+      if (p.year) meta.push(metaChip('Year', p.year));
+      if (p.venue) meta.push(metaChip('Venue', p.venue));
+      if (p.journal) meta.push(metaChip('Journal', p.journal));
+      if (p.conference) meta.push(metaChip('Conference', p.conference));
+      if (p.status) meta.push(metaChip('Status', p.status));
+      if (p.doi) meta.push(`<a class='px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs underline' target='_blank' rel='noreferrer' href='https://doi.org/${encodeURIComponent(p.doi)}'>DOI: ${esc(p.doi)}</a>`);
+      if (p.authors){ const a = Array.isArray(p.authors) ? p.authors.join(', ') : p.authors; meta.push(`<div class='text-xs text-slate-500'>Authors: ${esc(a)}</div>`); }
+      $('#mMeta').innerHTML = meta.join(' ');
+
+      const tags = (p.tags||[]).map(t=>`<span class='px-2 py-0.5 text-xs rounded-full border border-slate-200 dark:border-slate-700'>${esc(t)}</span>`).join(' ');
+      $('#mTags').innerHTML = tags;
+
+      const root = $('#mCarousel'); root.innerHTML=''; new ModalCarousel(root, p.images||[]);
+      // update hash for direct link
+      const u = new URL(location.href); u.hash = 'r=' + encodeURIComponent(p.slug); history.replaceState(null, '', u);
+    }
+    function metaChip(label, value){ return `<span class='px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs'>${esc(label)}: ${esc(value)}</span>`; }
+    function closeModal(){ const m=$('#modal'); m.classList.add('hidden'); const u=new URL(location.href); if(u.hash.includes('r=')){ u.hash=''; history.replaceState(null,'',u); } }
+    $('#modalBg').onclick = closeModal; $('#mClose').onclick = closeModal; window.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>

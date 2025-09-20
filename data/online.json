@@ -1,14 +1,18 @@
-[
-  {
-    "title": "Embedded Insider — YouTube",
-    "platform": "YouTube",
-    "date": "2023–Present",
-    "url": "https://www.youtube.com/@EmbeddedInsider"
+{
+  "channel": {
+    "id": "UCxxxxxxxxxxxxxxxxxxxx",
+    "name": "Embedded Insider",
+    "url": "https://www.youtube.com/@stech-ei",
+    "about": "Deep dives into embedded, protocols, crypto, robotics.",
+    "banner": "online/embedded-insider/banner.jpg",
+    "featured_video": "VIDEO_ID",
+    "uploads": "UUxxxxxxxxxxxxxxxxxxxx"
   },
-  {
-    "title": "Technical Blog: Hardware Wallets & ECU Projects",
-    "platform": "Google Sites",
-    "date": "Ongoing",
-    "url": "https://sites.google.com/view/shakiltanvir"
-  }
-]
+  "videos": [
+    { "id":"VIDEO_ID", "title":"My ECU teardown", "date":"2025-08-10", "playlist":"Automotive", "tags":["STM32","CAN"] },
+    { "id":"VIDEO_ID2", "title":"Air-gapped wallet HSM", "date":"2025-06-12", "tags":["ATECC608A","Crypto"] }
+  ],
+  "playlists": [
+    { "title":"Protocols Deep Dives", "id":"PLxxxxxxx" }
+  ]
+}
