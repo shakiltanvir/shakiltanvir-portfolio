@@ -4,40 +4,54 @@
     "org": "Spectrum Engineering Consortium Ltd. / Cybernetics Hi Tech (Pvt) Ltd",
     "start": "Mar 2024",
     "end": "Present",
-    "summary": "Led embedded R&D for robotics, automation, IoT, and smart energy projects.",
+    "summary": "Driving innovation in smart energy systems and overseeing embedded R&D for large-scale national projects.",
     "bullets": [
-      "Engineered multi-protocol control systems (Modbus TCP/RTU, DLMS/COSEM, STS/CTS).",
-      "Promoted for technical and leadership excellence."
+      "Led the transition into the Smart Energy industry, developing firmware for advanced energy meters with STS (Standard Transfer Specification) and DLMS/COSEM standards.",
+      "Designed and implemented communication protocols for Data Concentrator Units (DCU), Head End Systems (HES), and Meter Data Management (MDM) software.",
+      "Directed hardware and software integration across metering ecosystems, ensuring secure and scalable operation.",
+      "Served as Technology Head for embedded systems and Technical Advisor for the ROV team, ensuring the platform reached operational stability.",
+      "Managed and mentored a cross-functional embedded systems team delivering production-grade smart energy and automation solutions."
     ]
   },
   {
-    "role": "Lead Embedded Systems Engineer",
-    "org": "Spectrum / Cybernetics Hi Tech",
+    "role": "Lead Embedded System Engineer",
+    "org": "Spectrum Engineering Consortium Ltd. / Cybernetics Hi Tech (Pvt) Ltd",
     "start": "Dec 2023",
     "end": "Feb 2024",
-    "summary": "Firmware development for military robotics platform (EOD ROV).",
-     "bullets": [
-      "Developed real-time control systems using RS485  ARM  cortex m4",
-      "Integrated multi-sensor arrays (Motors, controllers, actuators, all together in a single platform).",
-      "Promoted for technical and leadership excellence."
+    "summary": "Architected communication and control firmware for Bangladesh Army’s Robotics platform (EOD/Surveillance ROV).",
+    "bullets": [
+      "Designed and implemented a custom RS485 multi-node communication protocol to coordinate motors, sensors, and actuators across the ROV.",
+      "Protocol work was published in **ICCIT 2024**, showcasing novel approaches to robust field robotics communication.",
+      "Integrated motor drivers, controllers, actuators, and wireless modules into a unified embedded system with real-time synchronization.",
+      "Worked directly with defense stakeholders; the project was officially recognized by the Bangladesh Army.",
+      "Delivered firmware architecture ensuring field reliability, scalability, and maintainability."
     ]
   },
   {
-    "role": "Embedded Software Engineer",
+    "role": "Embedded Software Engineer (Firmware Developer)",
     "org": "THT-Space Electrical Company Ltd.",
     "start": "Apr 2023",
     "end": "Dec 2023",
-    "summary": "Firmware for USB, BT, BLE, and WiFi thermal printers (RISC-V, SoC)."
+    "summary": "Developed and optimized firmware for high-volume thermal printers using low-cost RISC-V MCUs.",
+    "bullets": [
+      "Engineered firmware for printers with multiple communication interfaces (USB, Bluetooth, BLE, WiFi) and printhead types.",
+      "Built printer drivers and communication protocols, ensuring compatibility across different platforms.",
+      "Developed power management firmware for stable performance under variable loads.",
+      "Troubleshot production issues and optimized firmware for mass manufacturing using JL Technology RISC-V SoCs.",
+      "Collaborated closely with hardware and production teams to ensure cost-effective and reliable delivery at scale."
+    ]
   },
   {
     "role": "Trainee Engineer (IoT Solutions)",
     "org": "ADN Telecom Ltd.",
     "start": "Nov 2022",
     "end": "Mar 2023",
-    "summary": "IoT-based monitoring for data centers and PoPs.",
+    "summary": "Developed IoT-based monitoring systems for data centers and corporate clients with focus on secure protocols and networking.",
     "bullets": [
-      "Protocols: EMS, TCP/IP, MQTT, SNMP",
-      "Worked in data centers and NOC"
+      "Worked on Environmental Monitoring Systems (EMS) integrating sensors with MQTT, HTTPS, TCP/IP, and SNMP protocols.",
+      "Developed and deployed IoT monitoring solutions in data centers and Points of Presence (PoPs).",
+      "Collaborated with the Network Operations Center (NOC) team to troubleshoot and optimize IoT deployments.",
+      "Contributed to corporate networking projects by designing secure and scalable IoT monitoring infrastructure."
     ]
   }
 ]

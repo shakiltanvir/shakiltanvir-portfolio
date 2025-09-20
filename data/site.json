@@ -1,15 +1,18 @@
 {
-  "name": "Shakil Tanvir",
-  "headline": "Building reliable embedded systems that bridge research and real-world impact.",
-  "subtitle": "Secure hardware wallets (ATECC608A), STM32 ignition, smart energy (DLMS/COSEM, STS), defense ROVs, agritech automation.",
+  "name": "Md Shakil Tanvir",
+  "headline": "Embedded Systems Team Lead • Researcher • Entrepreneur",
+  "subtitle": "Defender ROV • Air-Gapped Crypto Hardware Wallet • STM32 ECU • Advanced Metering Infrastructure (DLMS/COSEM, STS)",
   "photo": "assets/profile.jpg",
-  "about": "Embedded Systems & Robotics Engineer. Founder of Creative Factory. I turn research into robust field devices.",
+  "about": "I am an Embedded Systems Engineer leading a team focused on building robust and secure embedded solutions. My work spans cryptography-based hardware wallets, automotive ignition/ECU systems, military-grade ROVs, and large-scale smart energy solutions (AMI, DLMS/COSEM, STS). With deep expertise in communication protocols (UART, SPI, I2C, CAN, Modbus, MQTT, TCP/IP), cryptography, blockchain, and IoT systems, I combine research with practical engineering to deliver real-world impact across industries including defense, energy, and automation.",
   "links": {
     "linkedin": "https://www.linkedin.com/in/shakiltanvir",
-    "website": "https://sites.google.com/view/shakiltanvir"
+    "website": "https://sites.google.com/view/shakiltanvir",
+    "youtube": "https://www.youtube.com/@EmbeddedInsider"
   },
   "contact": {
-    "email": "shakiltanvir99@gmail.com"
+    "email": "shakiltanvir99@gmail.com",
+    "phone": "+8801806980790",
+    "location": "Dhaka, Bangladesh"
   },
   "nav": [
     { "label": "About", "href": "about" },

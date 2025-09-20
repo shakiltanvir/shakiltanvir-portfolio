@@ -27,8 +27,9 @@
         "title": "DLMS/COSEM Smart Meter",
         "summary": "STM32, Modbus RTU/TCP, DLMS/COSEM, STS/CTS.",
         "images": [
-        "assets/proj-dlms1.jpg",
-        "assets/proj-dlms2.jpg"
+        "assets/proj-ami1.jpg",
+        "assets/proj-ami2.jpg",
+        "assets/proj-ami3.jpg"
         ],
         "tags": ["STM32", "Smart Energy", "DLMS/COSEM"],
         "detail": "/projects/smart-energy.html"
@@ -54,5 +55,30 @@
         ],
         "tags": ["IoT", "Automation", "Agriculture"],
         "detail": "/projects/agritech-automation.html"
+    },
+     {
+        "slug": "modbus-stm32",
+        "title": "Modbus-Protocol Implementation on STM32, RTU and TCP",
+        "summary": "Implemented Modbus RTU and TCP protocols stack for STM32 microcontrollers for industrial communication.",
+        "images": [
+        "assets/proj-modbus1.jpg",
+        "assets/proj-modbus2.jpg"
+        ],
+        "tags": ["IoT", "Automation", "Industrial Communication"],
+        "detail": "/projects/modbus.html"
+    },
+    {
+        "slug": "thermal-printer",
+        "title": "RISC-V Based Thermal Printer Firmware",
+        "summary": "Developed firmware for high-volume thermal printers using JL Technology RISC-V SoCs.",
+        "images": [
+        "assets/proj-printer1.jpg",
+        "assets/proj-printer2.jpg",
+        "assets/proj-printer3.jpg",
+        "assets/proj-printer4.jpg",
+        "assets/proj-printer5.jpg"
+        ],
+        "tags": ["RISC-V", "Firmware", "Thermal Printer"],
+        "detail": "/projects/thermal-printer.html"
     }
 ]
